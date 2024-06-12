@@ -66,9 +66,8 @@ class _CursosEstudiante extends State<CursosEstudiante> {
                         itemCount: cursos.length,
                         itemBuilder: (context, index) {
                           final cursoData = cursos[index];
-                          final id = index;
 
-                          return CardCurso(cursoData: cursoData, id: id);
+                          return CardCurso(cursoData: cursoData);
                         },
                       ),
               ],
@@ -82,22 +81,21 @@ class _CursosEstudiante extends State<CursosEstudiante> {
 
 class CardCurso extends StatelessWidget {
   final Map<String, dynamic> cursoData;
-  final int id;
 
-  const CardCurso({Key? key, required this.cursoData, required this.id})
-      : super(key: key);
+  const CardCurso({Key? key, required this.cursoData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(cursoData);
     final nombreCurso = cursoData['nombreCurso'];
     final nombreDocente = cursoData['nombreDocente'];
+    final idCurso = cursoData['idCurso'];
 
     return SizedBox(
       width: double.infinity,
-      height: 270,
+      height: 290,
       child: InkWell(
         onTap: () {
+          print(idCurso);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => DetalleCurso()),
@@ -133,27 +131,35 @@ class CardCurso extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
+              SizedBox(
+                height: 130,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      nombreCurso,
-                      style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            nombreCurso.toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Divider(color: Colors.blueAccent),
+                          Text(
+                            nombreDocente,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
-                    ),
-                    const Divider(color: Colors.blueAccent),
-                    Text(
-                      nombreDocente,
-                      style: const TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
-              ),
+              )
             ],
           ),
         ),
