@@ -33,13 +33,16 @@ class _CursosDocente extends State<CursosDocente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 9, 36, 82),
-        title: Text(
-          'Cursos'.toUpperCase(),
-          textAlign: TextAlign.start,
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70.0), // Adjust height as needed
+        child: AppBar(
+          backgroundColor: const Color.fromARGB(255, 9, 36, 82),
+          title: Text(
+            'Cursos'.toUpperCase(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40),
+          ),
         ),
       ),
       body: SafeArea(
@@ -81,14 +84,15 @@ class _CursosDocente extends State<CursosDocente> {
 
 class CardCurso extends StatelessWidget {
   final Map<String, dynamic> cursoData;
+  final DocentesAPI docentesAPI = DocentesAPI();
 
-  const CardCurso({Key? key, required this.cursoData}) : super(key: key);
+  CardCurso({Key? key, required this.cursoData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final nombreCurso = cursoData['nombreCurso'];
     final nombreDocente = cursoData['nombreDocente'];
-    final id = cursoData['idCurso'];
+    final id = cursoData['id'];
 
     return SizedBox(
       width: double.infinity,
@@ -96,6 +100,7 @@ class CardCurso extends StatelessWidget {
       child: InkWell(
         onTap: () {
           print(id);
+          docentesAPI.TemasCurso();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => DetalleCursoDocente()),

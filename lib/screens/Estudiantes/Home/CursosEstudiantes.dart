@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectoya/api/apiEstudiantes.dart';
 import 'package:lectoya/screens/Estudiantes/Curso/indexCurso.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CursosEstudiante extends StatefulWidget {
   const CursosEstudiante({super.key});
@@ -33,13 +34,16 @@ class _CursosEstudiante extends State<CursosEstudiante> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 9, 36, 82),
-        title: Text(
-          'Cursos'.toUpperCase(),
-          textAlign: TextAlign.start,
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70.0), // Adjust height as needed
+        child: AppBar(
+          backgroundColor: const Color.fromARGB(255, 9, 36, 82),
+          title: Text(
+            'Cursos'.toUpperCase(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40),
+          ),
         ),
       ),
       body: SafeArea(
@@ -94,7 +98,9 @@ class CardCurso extends StatelessWidget {
       width: double.infinity,
       height: 290,
       child: InkWell(
-        onTap: () {
+        onTap: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('idCurso', idCurso);
           print(idCurso);
           Navigator.push(
             context,

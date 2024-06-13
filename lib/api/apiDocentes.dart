@@ -33,19 +33,17 @@ class DocentesAPI {
     return "";
   }
 
-  Future<Object> RegistrarDocente(
-      nombre, apaterno, amaterno, correo, numero, dni, password) async {
+  Future<Object> ActualizarDocente(
+      nombre, apaterno, amaterno, correo, numero) async {
     try {
       final response = await dio.post(
-        'https://lectoya-back.onrender.com/app/registrarDocentes',
+        'https://lectoya-back.onrender.com/app/actualizarDocentes',
         data: {
           'nombre': nombre,
           'apaterno': apaterno,
           'amaterno': amaterno,
           'correo': correo,
           'numero': numero,
-          'dni': dni,
-          'password': password
         },
       );
       var result = response.data.toString();
@@ -99,6 +97,28 @@ class DocentesAPI {
       } else {
         throw Exception(response.statusCode);
       }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> TemasCurso() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/mostrarTemas/17',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      return response.data;
     } catch (e) {
       throw Exception(e);
     }
