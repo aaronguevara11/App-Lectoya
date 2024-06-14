@@ -35,15 +35,16 @@ class _CursosEstudiante extends State<CursosEstudiante> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70.0), // Adjust height as needed
+        preferredSize: Size.fromHeight(65.0),
         child: AppBar(
           backgroundColor: const Color.fromARGB(255, 9, 36, 82),
           title: Text(
-            'Cursos'.toUpperCase(),
+            'Módulos'.toUpperCase(),
             textAlign: TextAlign.center,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40),
+                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 35),
           ),
+          automaticallyImplyLeading: false,
         ),
       ),
       body: SafeArea(
@@ -96,7 +97,6 @@ class CardCurso extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: 290,
       child: InkWell(
         onTap: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -137,35 +137,32 @@ class CardCurso extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 130,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(14.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            nombreCurso.toUpperCase(),
-                            style: const TextStyle(
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                            ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          nombreCurso.toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const Divider(color: Colors.blueAccent),
-                          Text(
-                            nombreDocente,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
+                        ),
+                        const Divider(color: Colors.blueAccent),
+                        Text(
+                          nombreDocente,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
+                  ),
+                ],
+              ),
             ],
           ),
         ),

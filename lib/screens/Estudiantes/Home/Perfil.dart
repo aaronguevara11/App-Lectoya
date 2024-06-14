@@ -71,7 +71,7 @@ class _Perfil extends State<PerfilEstudiante> {
 
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0), // Adjust height as needed
+          preferredSize: Size.fromHeight(65.0),
           child: AppBar(
             backgroundColor: const Color.fromARGB(255, 9, 36, 82),
             title: Text(
@@ -79,9 +79,10 @@ class _Perfil extends State<PerfilEstudiante> {
               textAlign: TextAlign.center,
               style: const TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 37),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 35),
             ),
+            automaticallyImplyLeading: false,
           ),
         ),
         body: Center(
@@ -122,7 +123,7 @@ class _Perfil extends State<PerfilEstudiante> {
                                   color: Colors.black45),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(2),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -137,7 +138,7 @@ class _Perfil extends State<PerfilEstudiante> {
                                       );
                                     },
                                     child: Container(
-                                      width: 135,
+                                      width: 145,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: Color.fromARGB(255, 19, 15, 124),
@@ -148,7 +149,7 @@ class _Perfil extends State<PerfilEstudiante> {
                                           child: Text(
                                             'Cambiar datos',
                                             style: TextStyle(
-                                              fontSize: 18,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.normal,
                                               color: Colors.white,
                                             ),
@@ -170,7 +171,7 @@ class _Perfil extends State<PerfilEstudiante> {
                                       );
                                     },
                                     child: Container(
-                                      width: 135,
+                                      width: 145,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: Color.fromARGB(255, 136, 0, 0),
@@ -181,7 +182,7 @@ class _Perfil extends State<PerfilEstudiante> {
                                           child: Text(
                                             'Cerrar sesion',
                                             style: TextStyle(
-                                              fontSize: 18,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.normal,
                                               color: Colors.white,
                                             ),
@@ -192,6 +193,9 @@ class _Perfil extends State<PerfilEstudiante> {
                                   ),
                                 ],
                               ),
+                            ),
+                            SizedBox(
+                              height: 10,
                             ),
                             SizedBox(
                                 width: MediaQuery.of(context).size.width,

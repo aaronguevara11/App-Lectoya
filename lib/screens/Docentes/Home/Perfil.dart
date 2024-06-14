@@ -73,7 +73,7 @@ class _Perfil extends State<PerfilDocente> {
 
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0), // Adjust height as needed
+          preferredSize: Size.fromHeight(65.0),
           child: AppBar(
             backgroundColor: const Color.fromARGB(255, 9, 36, 82),
             title: Text(
@@ -82,8 +82,9 @@ class _Perfil extends State<PerfilDocente> {
               style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
-                  fontSize: 40),
+                  fontSize: 35),
             ),
+            automaticallyImplyLeading: false,
           ),
         ),
         body: Center(
