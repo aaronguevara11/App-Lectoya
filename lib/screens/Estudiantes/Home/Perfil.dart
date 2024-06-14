@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:lectoya/api/apiEstudiantes.dart';
+import 'package:lectoya/screens/Estudiantes/Forms/ActualizarDatos.dart';
 import 'package:lectoya/screens/Inicio/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -70,7 +71,7 @@ class _Perfil extends State<PerfilEstudiante> {
 
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0), // Adjust height as needed
+          preferredSize: Size.fromHeight(70.0), // Adjust height as needed
           child: AppBar(
             backgroundColor: const Color.fromARGB(255, 9, 36, 82),
             title: Text(
@@ -114,7 +115,7 @@ class _Perfil extends State<PerfilEstudiante> {
                               ),
                             ),
                             Text(
-                              nombre,
+                              '$nombre $apaterno',
                               style: const TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
@@ -122,24 +123,21 @@ class _Perfil extends State<PerfilEstudiante> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(12),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  final prefs =
-                                      await SharedPreferences.getInstance();
-                                  await prefs.remove('token');
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginVentana()),
-                                  );
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: 160,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ActualizarEstudiante()),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 135,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: Color.fromARGB(255, 19, 15, 124),
@@ -158,8 +156,21 @@ class _Perfil extends State<PerfilEstudiante> {
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      width: 160,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.remove('token');
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginVentana()),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 135,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: Color.fromARGB(255, 136, 0, 0),
@@ -178,8 +189,8 @@ class _Perfil extends State<PerfilEstudiante> {
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(
@@ -188,7 +199,7 @@ class _Perfil extends State<PerfilEstudiante> {
                                   elevation: 12,
                                   shadowColor: Colors.black54,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(25),
+                                    padding: const EdgeInsets.all(12),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

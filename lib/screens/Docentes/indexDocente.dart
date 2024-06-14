@@ -16,48 +16,109 @@ class _HomeDocente extends State<HomeDocente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 216, 216, 216),
-
-        //Body - especifica a donde va a redirigir luego de hacer click en el icono
-        body: PageView(
-          controller: pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [CursosDocente(), PerfilDocente()],
-        ),
-        bottomNavigationBar: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20.0), // Set desired top-left radius
-            topRight: Radius.circular(20.0), // Set desired top-right radius
+      backgroundColor: const Color.fromARGB(255, 216, 216, 216),
+      body: PageView(
+        controller: pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [CursosDocente(), PerfilDocente()],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: SizedBox(
+        width: 60,
+        height: 60,
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Colors.white,
+          shape: const CircleBorder(
+            side: BorderSide(
+              width: 5,
+            ),
           ),
-          child: SafeArea(
-            child: SizedBox(
-              height: 70,
-              child: BottomNavigationBar(
-                currentIndex: currentPage,
-                onTap: (index) {
-                  currentPage = index;
-                  pageController.animateToPage(index,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeOut);
-
-                  setState(() {});
-                },
-                backgroundColor: Colors.black,
-                selectedItemColor: Colors.white,
-                unselectedItemColor: Colors.white54,
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.book_outlined),
-                    label: 'Modulos',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person_2_outlined),
-                    label: 'Perfil',
+          child: const Icon(
+            Icons.add,
+            size: 24.0,
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        height: 75,
+        shape: const CircularNotchedRectangle(),
+        color: Colors.black87,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              height: 75,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      currentPage = 0;
+                      pageController.animateToPage(0,
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeOut);
+                      setState(() {});
+                    },
+                    child: const SizedBox(
+                      height: 70,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.book_outlined,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'Modulos',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-        ));
+            const SizedBox(
+              width: 5,
+            ),
+            SizedBox(
+              height: 75,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      currentPage = 1;
+                      pageController.animateToPage(1,
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeOut);
+                      setState(() {});
+                    },
+                    child: const SizedBox(
+                      height: 70,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.person,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'Perfil',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

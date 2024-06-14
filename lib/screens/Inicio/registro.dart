@@ -132,7 +132,7 @@ class _Registro extends State<RegistroVentana> {
                                             color: Colors.black,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold),
-                                        prefixIcon: Icon(Icons.email_outlined)),
+                                        prefixIcon: Icon(Icons.email)),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Ingrese su correo electrónico';

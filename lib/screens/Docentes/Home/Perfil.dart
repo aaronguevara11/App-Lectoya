@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:lectoya/api/apiDocentes.dart'; // Assuming this imports your DocentesAPI class
+import 'package:lectoya/api/apiDocentes.dart';
 import 'package:lectoya/screens/Docentes/Forms/ActualizarDatos.dart';
 import 'package:lectoya/screens/Inicio/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -91,11 +91,11 @@ class _Perfil extends State<PerfilDocente> {
                 ? const CircularProgressIndicator()
                 : SingleChildScrollView(
                     child: SizedBox(
-                      width: double.infinity,
+                      width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(25),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
@@ -117,29 +117,32 @@ class _Perfil extends State<PerfilDocente> {
                               ),
                             ),
                             Text(
-                              nombre,
+                              '$nombre $apaterno',
                               style: const TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black45),
                             ),
+                            const SizedBox(
+                              height: 6,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ActualizarDocente()),
-                                  );
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: 160,
+                              padding: const EdgeInsets.all(2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ActualizarDocente()),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 145,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: Color.fromARGB(255, 19, 15, 124),
@@ -150,7 +153,7 @@ class _Perfil extends State<PerfilDocente> {
                                           child: Text(
                                             'Cambiar datos',
                                             style: TextStyle(
-                                              fontSize: 18,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.normal,
                                               color: Colors.white,
                                             ),
@@ -158,8 +161,21 @@ class _Perfil extends State<PerfilDocente> {
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      width: 160,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.remove('token');
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginVentana()),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 145,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: Color.fromARGB(255, 136, 0, 0),
@@ -170,7 +186,7 @@ class _Perfil extends State<PerfilDocente> {
                                           child: Text(
                                             'Cerrar sesion',
                                             style: TextStyle(
-                                              fontSize: 18,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.normal,
                                               color: Colors.white,
                                             ),
@@ -178,17 +194,20 @@ class _Perfil extends State<PerfilDocente> {
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 child: Card(
-                                  elevation: 12,
-                                  shadowColor: Colors.black54,
+                                  elevation: 15,
+                                  shadowColor: Color.fromARGB(255, 52, 52, 52),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(25),
+                                    padding: const EdgeInsets.all(12),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

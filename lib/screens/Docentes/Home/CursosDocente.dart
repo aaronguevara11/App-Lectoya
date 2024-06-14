@@ -96,7 +96,6 @@ class CardCurso extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: 290,
       child: InkWell(
         onTap: () {
           print(id);
@@ -137,7 +136,6 @@ class CardCurso extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 130,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

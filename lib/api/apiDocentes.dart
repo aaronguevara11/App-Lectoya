@@ -35,8 +35,10 @@ class DocentesAPI {
 
   Future<Object> ActualizarDocente(
       nombre, apaterno, amaterno, correo, numero) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
     try {
-      final response = await dio.post(
+      final response = await dio.put(
         'https://lectoya-back.onrender.com/app/actualizarDocentes',
         data: {
           'nombre': nombre,
@@ -45,16 +47,18 @@ class DocentesAPI {
           'correo': correo,
           'numero': numero,
         },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
-      var result = response.data.toString();
 
       String message = response.data['message'];
 
       print(message);
 
-      if (result == "{message: El docente ya existe}") {
-        return "Datos incorrectos";
-      } else if (response.statusCode == 500) {
+      if (response.statusCode == 500) {
         return "Error en el servidor";
       } else {
         return "Registrado exitosamente";

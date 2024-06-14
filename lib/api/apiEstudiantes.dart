@@ -34,6 +34,42 @@ class EstudiantesAPI {
     return "";
   }
 
+  Future<Object> ActualizarEstudiante(
+      nombre, apaterno, amaterno, correo, numero) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    try {
+      final response = await dio.put(
+        'https://lectoya-back.onrender.com/app/actualizarAlumnos',
+        data: {
+          'nombre': nombre,
+          'apaterno': apaterno,
+          'amaterno': amaterno,
+          'correo': correo,
+          'numero': numero,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      String message = response.data['message'];
+
+      print(message);
+
+      if (response.statusCode == 500) {
+        return "Error en el servidor";
+      } else {
+        return "Registrado exitosamente";
+      }
+    } catch (e) {
+      print('GA');
+    }
+    return "";
+  }
+
   Future<Object> RegistrarEstudiante(
       nombre, apaterno, amaterno, correo, numero, dni, password) async {
     try {

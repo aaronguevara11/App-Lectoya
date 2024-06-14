@@ -145,14 +145,12 @@ class _Login extends State<LoginVentana> {
                                   } else {
                                     await (isDocente
                                         ? Navigator.pushReplacement(
-                                            // ignore: use_build_context_synchronously
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     const HomeDocente()),
                                           )
                                         : Navigator.pushReplacement(
-                                            // ignore: use_build_context_synchronously
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
