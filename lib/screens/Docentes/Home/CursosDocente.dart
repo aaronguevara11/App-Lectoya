@@ -1,6 +1,7 @@
 import 'package:lectoya/api/apiDocentes.dart';
 import 'package:flutter/material.dart';
 import 'package:lectoya/screens/Docentes/Curso/indexCurso.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CursosDocente extends StatefulWidget {
   const CursosDocente({super.key});
@@ -98,13 +99,23 @@ class CardCurso extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: InkWell(
-        onTap: () {
-          print(id);
-          docentesAPI.TemasCurso();
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => DetalleCursoDocente()),
-          );
+        onTap: () async {
+          final idCurso = id.toString();
+          print(idCurso);
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('idCurso', idCurso);
+          await prefs.setString('nombreCurso', nombreCurso);
+          try {
+            final temas = await docentesAPI.TemasCurso();
+            print(temas);
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DetalleCursoDocente()),
+            );
+          } catch (e) {
+            print('Error al obtener los temas del curso: $e');
+          }
         },
         child: Card(
           elevation: 8,

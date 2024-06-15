@@ -112,6 +112,8 @@ class DocentesAPI {
         ),
       );
 
+      print(response.data);
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = response.data as Map<String, dynamic>;
         final List<dynamic> cursos = data['cursos'][0]['cursos'];
@@ -138,10 +140,11 @@ class DocentesAPI {
   Future<Map<String, dynamic>> TemasCurso() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('jwt');
+    final idCurso = prefs.getString('idCurso');
 
     try {
       final response = await dio.get(
-        'https://lectoya-back.onrender.com/app/mostrarTemas/17',
+        'https://lectoya-back.onrender.com/app/mostrarTemas/$idCurso',
         options: Options(
           headers: {
             'Authorization': token,
@@ -149,11 +152,24 @@ class DocentesAPI {
         ),
       );
 
-      print(response.data);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = response.data;
+        List<dynamic> temasList = data['Tema']['temas'];
+        List<Map<String, dynamic>> temas = temasList.map((tema) {
+          return {
+            'id': tema['id'],
+            'nombre': tema['nombre'],
+            'descripcion': tema['descripcion']
+          };
+        }).toList();
 
-      return response.data;
+        return {'temas': temas};
+      } else {
+        throw Exception('Error al obtener los temas del curso.');
+      }
     } catch (e) {
-      throw Exception(e);
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
     }
   }
 }
