@@ -69,6 +69,35 @@ class DocentesAPI {
     return "";
   }
 
+  Future<Object> AgregarCurso(nombre, descripcion) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/crearCurso',
+        data: {'nombre': nombre, 'descripcion': descripcion},
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      String message = response.data['message'];
+
+      print(message);
+
+      if (response.statusCode == 500) {
+        return "Error en el servidor";
+      } else {
+        return "Registrado exitosamente";
+      }
+    } catch (e) {
+      print('GA');
+    }
+    return "";
+  }
+
   Future<Map<String, dynamic>> CursosDocente() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('jwt');
