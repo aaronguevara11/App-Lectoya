@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lectoya/api/apiDocentes.dart';
 import 'package:lectoya/screens/Docentes/Curso/Temas/DetalleTema.dart';
+import 'package:lectoya/screens/Docentes/Curso/indexCurso.dart';
 
 class TemaDocente extends StatefulWidget {
   final List<Map<String, dynamic>> temas; // Lista de temas recibida
@@ -11,6 +13,12 @@ class TemaDocente extends StatefulWidget {
 }
 
 class _Temas extends State<TemaDocente> {
+  DocentesAPI docentesAPI = DocentesAPI();
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  TextEditingController nombreController = TextEditingController();
+  TextEditingController descripcionController = TextEditingController();
+  TextEditingController lecturaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +34,258 @@ class _Temas extends State<TemaDocente> {
               descripcion: tema['descripcion'],
             );
           },
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: SizedBox(
+        width: 60,
+        height: 60,
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext context) {
+                return StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return AnimatedPadding(
+                      padding: MediaQuery.of(context).viewInsets,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.decelerate,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(20)),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(35),
+                          child: Form(
+                            key: formkey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Agregar tema'.toUpperCase(),
+                                  style: const TextStyle(
+                                      fontSize: 27,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  height: 3,
+                                ),
+                                const Divider(
+                                  height: 2,
+                                  color: Color.fromARGB(137, 0, 0, 0),
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                TextFormField(
+                                  controller: nombreController,
+                                  decoration: InputDecoration(
+                                      fillColor: Colors.black,
+                                      labelText: 'Nombre del tema',
+                                      floatingLabelStyle: const TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      prefixIcon: Icon(Icons.addchart)),
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Ingrese un nombre';
+                                    } else if (value.length <= 5) {
+                                      return 'Ingrese un nombre más largo';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  controller: descripcionController,
+                                  maxLines: null,
+                                  minLines: 1,
+                                  decoration: InputDecoration(
+                                      fillColor: Colors.black,
+                                      labelText: 'Descripción del tema',
+                                      floatingLabelStyle: const TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      prefixIcon:
+                                          Icon(Icons.description_outlined)),
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Ingrese una descripción';
+                                    } else if (value.length >= 30) {
+                                      return 'Ingrese una descripción más breve';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  controller: lecturaController,
+                                  maxLines: null,
+                                  minLines: 1,
+                                  decoration: InputDecoration(
+                                      fillColor: Colors.black,
+                                      labelText: 'Lectura del tema',
+                                      floatingLabelStyle: const TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      prefixIcon: const Icon(Icons.read_more)),
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Ingrese una lectura';
+                                    } else if (value.length <= 25) {
+                                      return 'Ingrese una lectura más larga';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 18),
+                                GestureDetector(
+                                  onTap: () async {
+                                    if (formkey.currentState!.validate()) {
+                                      String nombre = nombreController.text;
+                                      String descripcion =
+                                          descripcionController.text;
+                                      String lectura = lecturaController.text;
+                                      final response =
+                                          await docentesAPI.AgregaTema(
+                                              nombre, descripcion, lectura);
+                                      if (response == "Error en el servidor") {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.error_outline,
+                                                  color: Colors.white,
+                                                ),
+                                                Text(
+                                                  'Hubo un error, intentalo de nuevo más tarde',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            backgroundColor:
+                                                Color.fromARGB(255, 87, 14, 14),
+                                          ),
+                                        );
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DetalleCursoDocente()),
+                                        );
+                                      } else if (response ==
+                                          "Hubo un error vuelva a intentarlo más tarde") {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.error_outline,
+                                                  color: Colors.white,
+                                                ),
+                                                Text(
+                                                  'Hubo un error, intentalo de nuevo más tarde',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            backgroundColor:
+                                                Color.fromARGB(255, 87, 14, 14),
+                                          ),
+                                        );
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DetalleCursoDocente()),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.check,
+                                                  color: Colors.white,
+                                                ),
+                                                Text(
+                                                  'Nivel agregado con éxito',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            backgroundColor:
+                                                Color.fromARGB(255, 19, 87, 14),
+                                          ),
+                                        );
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DetalleCursoDocente()),
+                                        );
+                                      }
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                          255, 20, 22, 100),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        'Agregar',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
+          backgroundColor: Colors.white,
+          shape: const CircleBorder(
+            side: BorderSide(width: 5, color: Color.fromARGB(255, 22, 27, 124)),
+          ),
+          child: const Icon(
+            Icons.add,
+            size: 24.0,
+          ),
         ),
       ),
     );

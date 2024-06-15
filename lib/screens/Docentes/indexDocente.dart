@@ -192,13 +192,13 @@ class _HomeDocente extends State<HomeDocente> {
                                           255, 20, 22, 100),
                                       borderRadius: BorderRadius.circular(15),
                                     ),
-                                    child: Center(
+                                    child: const Center(
                                       child: Text(
                                         'Agregar',
                                         style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                        ),
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ),
@@ -233,73 +233,59 @@ class _HomeDocente extends State<HomeDocente> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SizedBox(
-              height: 75,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      currentPage = 0;
-                      pageController.animateToPage(0,
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeOut);
-                      setState(() {});
-                    },
-                    child: const SizedBox(
-                      height: 70,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.book_outlined,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Modulos',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
+            GestureDetector(
+              onTap: () {
+                currentPage = 0;
+                pageController.animateToPage(0,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeOut);
+                setState(() {});
+              },
+              child: SizedBox(
+                height: 70,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.book_outlined,
+                      color: currentPage == 0 ? Colors.white : Colors.grey,
                     ),
-                  ),
-                ],
+                    Text(
+                      'Modulos',
+                      style: TextStyle(
+                          color: currentPage == 0 ? Colors.white : Colors.grey),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(
-              width: 5,
-            ),
             SizedBox(
-              height: 75,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      currentPage = 1;
-                      pageController.animateToPage(1,
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeOut);
-                      setState(() {});
-                    },
-                    child: const SizedBox(
-                      height: 70,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.person,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Perfil',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
+              width: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                currentPage = 1;
+                pageController.animateToPage(1,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeOut);
+                setState(() {});
+              },
+              child: SizedBox(
+                height: 70,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: currentPage == 1 ? Colors.white : Colors.grey,
                     ),
-                  ),
-                ],
+                    Text(
+                      'Perfil',
+                      style: TextStyle(
+                          color: currentPage == 1 ? Colors.white : Colors.grey),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

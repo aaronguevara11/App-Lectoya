@@ -230,7 +230,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Dni:',
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                               ),
                                             ),
                                             const SizedBox(
@@ -252,7 +252,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   dni,
                                                   style: const TextStyle(
-                                                      fontSize: 18,
+                                                      fontSize: 16,
                                                       color: Colors.black38),
                                                 ),
                                               ),
@@ -269,7 +269,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Nombres:',
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                               ),
                                             ),
                                             const SizedBox(
@@ -291,7 +291,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   nombre,
                                                   style: const TextStyle(
-                                                      fontSize: 18,
+                                                      fontSize: 16,
                                                       color: Colors.black38),
                                                 ),
                                               ),
@@ -308,7 +308,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Apellidos:',
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                               ),
                                             ),
                                             const SizedBox(
@@ -330,7 +330,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   apaterno + ' ' + amaterno,
                                                   style: const TextStyle(
-                                                      fontSize: 18,
+                                                      fontSize: 16,
                                                       color: Colors.black38),
                                                 ),
                                               ),
@@ -347,7 +347,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Correo:',
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                               ),
                                             ),
                                             const SizedBox(
@@ -369,7 +369,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   correo,
                                                   style: const TextStyle(
-                                                      fontSize: 18,
+                                                      fontSize: 16,
                                                       color: Colors.black38),
                                                 ),
                                               ),
@@ -386,7 +386,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Número:',
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                               ),
                                             ),
                                             const SizedBox(
@@ -408,7 +408,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   numero,
                                                   style: const TextStyle(
-                                                      fontSize: 18,
+                                                      fontSize: 16,
                                                       color: Colors.black38),
                                                 ),
                                               ),

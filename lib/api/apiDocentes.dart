@@ -152,6 +152,8 @@ class DocentesAPI {
         ),
       );
 
+      print(response.data);
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = response.data;
         List<dynamic> temasList = data['Tema']['temas'];
@@ -171,5 +173,80 @@ class DocentesAPI {
       print(e);
       throw Exception('Error al obtener los temas del curso.');
     }
+  }
+
+  Future<Map<String, dynamic>> EstudiantesCurso() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idCurso = prefs.getString('idCurso');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/mostrarTemas/$idCurso',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = response.data;
+        print(data); // Depuración: Imprimir la respuesta completa de la API
+
+        List<dynamic> matriculasList = data['Tema']['matriculas'];
+        List<Map<String, dynamic>> estudiantes = [];
+
+        for (var matricula in matriculasList) {
+          var alumno = matricula['alumnos'];
+          estudiantes.add(
+              {'nombre': alumno['nombre'], 'apaterno': alumno['apaterno']});
+        }
+
+        return {'estudiantes': estudiantes};
+      } else {
+        throw Exception('Error al obtener los estudiantes del curso.');
+      }
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los estudiantes del curso.');
+    }
+  }
+
+  Future<Object> AgregaTema(nombre, descripcion, lectura) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idCurso = prefs.getString('idCurso');
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/agregarTemas',
+        data: {
+          'idCurso': idCurso,
+          'nombre': nombre,
+          'descripcion': descripcion,
+          'lectura': lectura
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      String message = response.data['message'];
+
+      print(message);
+
+      if (response.statusCode == 500) {
+        return "Error en el servidor";
+      } else if (response.statusCode == 404) {
+        return "Hubo un error vuelva a intentarlo más tarde";
+      } else {
+        return "Registrado exitosamente";
+      }
+    } catch (e) {
+      print('GA');
+    }
+    return "";
   }
 }

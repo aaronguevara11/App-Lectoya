@@ -42,7 +42,6 @@ class _DetalleCursoDocenteState extends State<DetalleCursoDocente> {
       }
     } catch (e) {
       print(e);
-      // Maneja el error adecuadamente, como mostrar un mensaje en la UI.
     }
   }
 
@@ -70,43 +69,92 @@ class _DetalleCursoDocenteState extends State<DetalleCursoDocente> {
           const EstudiantesCursoDocente(),
         ],
       ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
-        ),
-        child: SafeArea(
-          child: SizedBox(
-            height: 70,
-            child: BottomNavigationBar(
-              currentIndex: currentPage,
-              onTap: (index) {
-                setState(() {
-                  currentPage = index;
-                });
-                pageController.animateToPage(index,
+      bottomNavigationBar: BottomAppBar(
+        height: 75,
+        shape: const CircularNotchedRectangle(),
+        color: Colors.black87,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            GestureDetector(
+              onTap: () {
+                currentPage = 0;
+                pageController.animateToPage(0,
                     duration: const Duration(milliseconds: 400),
                     curve: Curves.easeOut);
+                setState(() {});
               },
-              backgroundColor: Colors.black,
-              selectedItemColor: Colors.white,
-              unselectedItemColor: Colors.white54,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.book_outlined),
-                  label: 'Temas',
+              child: SizedBox(
+                height: 75,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.book_outlined,
+                      color: currentPage == 0 ? Colors.white : Colors.grey,
+                    ),
+                    Text(
+                      'Temas',
+                      style: TextStyle(
+                          color: currentPage == 0 ? Colors.white : Colors.grey),
+                    ),
+                  ],
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person_2_outlined),
-                  label: 'Alumnos',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Configuración',
-                )
-              ],
+              ),
             ),
-          ),
+            GestureDetector(
+              onTap: () {
+                currentPage = 1;
+                pageController.animateToPage(1,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeOut);
+                setState(() {});
+              },
+              child: SizedBox(
+                height: 75,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.people_outline,
+                      color: currentPage == 1 ? Colors.white : Colors.grey,
+                    ),
+                    Text(
+                      'Estudiantes',
+                      style: TextStyle(
+                          color: currentPage == 1 ? Colors.white : Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                currentPage = 2;
+                pageController.animateToPage(2,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeOut);
+                setState(() {});
+              },
+              child: SizedBox(
+                height: 75,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.settings,
+                      color: currentPage == 2 ? Colors.white : Colors.grey,
+                    ),
+                    Text(
+                      'Ajustes',
+                      style: TextStyle(
+                          color: currentPage == 2 ? Colors.white : Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
