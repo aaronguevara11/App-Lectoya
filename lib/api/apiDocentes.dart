@@ -137,6 +137,37 @@ class DocentesAPI {
     }
   }
 
+  Future<Object> BorrarCurso(id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    try {
+      final response = await dio.delete(
+        'https://lectoya-back.onrender.com/app/eliminarCurso',
+        data: {
+          'id': id,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      String message = response.data['message'];
+
+      print(message);
+
+      if (response.statusCode == 404) {
+        return "El nivel no ha sido encontrado";
+      } else {
+        return "Nivel borrado exitosamente";
+      }
+    } catch (e) {
+      print('GA');
+    }
+    return "";
+  }
+
   Future<Map<String, dynamic>> TemasCurso() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('jwt');
