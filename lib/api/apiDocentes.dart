@@ -280,4 +280,43 @@ class DocentesAPI {
     }
     return "";
   }
+
+  Future<Map<String, dynamic>> DetallesTema() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idTema = prefs.getString('idTema');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/verTema/$idTema',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = response.data;
+        final Map<String, dynamic> temaData = data['Temas'];
+
+        final result = {
+          'id': temaData['id'],
+          'nombre': temaData['nombre'],
+          'lectura': temaData['lectura'],
+          'juegos': temaData['juegos']
+        };
+
+        print(result);
+        return result;
+      } else {
+        throw Exception('Error al obtener los temas del curso.');
+      }
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
 }

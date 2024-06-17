@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lectoya/api/apiDocentes.dart';
 import 'package:lectoya/screens/Docentes/Curso/Temas/DetalleTema.dart';
 import 'package:lectoya/screens/Docentes/Curso/indexCurso.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TemaDocente extends StatefulWidget {
   final List<Map<String, dynamic>> temas; // Lista de temas recibida
@@ -293,11 +294,12 @@ class _Temas extends State<TemaDocente> {
 }
 
 class CardTema extends StatelessWidget {
+  DocentesAPI docentesAPI = DocentesAPI();
   final int id;
   final String nombre;
   final String descripcion;
 
-  const CardTema({
+  CardTema({
     Key? key,
     required this.id,
     required this.nombre,
@@ -309,8 +311,13 @@ class CardTema extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: InkWell(
-        onTap: () {
-          Navigator.push(
+        onTap: () async {
+          final idTema = id.toString();
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('idTema', idTema);
+          final response = await docentesAPI.DetallesTema();
+          print(response);
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => DetalleTemaDocente()),
           );

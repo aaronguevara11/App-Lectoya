@@ -55,22 +55,17 @@ class _CursosDocente extends State<CursosDocente> {
             child: Column(
               children: [
                 cursos.isEmpty
-                    ? const Center(
-                        child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            'Cargando...',
+                    ? const SizedBox(
+                        child: Center(
+                          child: Text(
+                            'Aún no te has matriculado \na ningún curso',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ))
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      )
                     : ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -103,14 +98,14 @@ class CardCurso extends StatelessWidget {
     final id = cursoData['id'];
 
     return Container(
-      margin: EdgeInsets.all(6),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+      margin: EdgeInsets.all(10),
       child: Dismissible(
         key: Key(id.toString()),
         background: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: const Color.fromARGB(255, 86, 23, 19)),
+            borderRadius: BorderRadius.circular(20),
+            color: const Color.fromARGB(255, 86, 23, 19),
+          ),
           padding: EdgeInsets.symmetric(horizontal: 20),
           alignment: AlignmentDirectional.centerEnd,
           child: Icon(
@@ -119,7 +114,87 @@ class CardCurso extends StatelessWidget {
           ),
         ),
         direction: DismissDirection.endToStart,
-        movementDuration: Duration(milliseconds: 500),
+        confirmDismiss: (direction) async {
+          bool confirm = false;
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Center(
+                child: Container(
+                  height: 255,
+                  child: AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    contentPadding: EdgeInsets.only(left: 18, right: 18),
+                    content: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Borrar nivel".toUpperCase(),
+                          style: TextStyle(
+                              fontSize: 26, fontWeight: FontWeight.bold),
+                        ),
+                        Divider(),
+                        const Text(
+                          "¿Estás seguro que deseas borrar este nivel?",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                confirm = false;
+                                Navigator.of(context).pop();
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(0),
+                                height: 40,
+                                child: Text(
+                                  'Cancelar',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 14,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                confirm = true;
+                                Navigator.of(context).pop();
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(0),
+                                height: 40,
+                                child: Text(
+                                  'Borrar',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: const Color.fromARGB(
+                                          255, 107, 33, 28),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+          return confirm;
+        },
         onDismissed: (direction) async {
           final response = await docentesAPI.BorrarCurso(id);
           if (response == "El nivel no ha sido encontrado") {
@@ -140,10 +215,6 @@ class CardCurso extends StatelessWidget {
                 backgroundColor: Color.fromARGB(255, 87, 14, 14),
               ),
             );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeDocente()),
-            );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -161,10 +232,6 @@ class CardCurso extends StatelessWidget {
                 ),
                 backgroundColor: Color.fromARGB(255, 23, 87, 14),
               ),
-            );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeDocente()),
             );
           }
         },
