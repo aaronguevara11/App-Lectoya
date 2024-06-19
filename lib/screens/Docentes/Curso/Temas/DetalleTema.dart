@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:lectoya/api/apiDocentes.dart'; // Asegúrate de importar tu API aquí
+import 'package:lectoya/api/apiDocentes.dart';
+import 'package:lectoya/screens/Docentes/Forms/Juegos/cambialo.dart';
+import 'package:lectoya/screens/Docentes/Forms/Juegos/dado.dart';
+import 'package:lectoya/screens/Docentes/Forms/Juegos/haremos.dart';
+import 'package:lectoya/screens/Docentes/Forms/Juegos/interactivas.dart';
+import 'package:lectoya/screens/Docentes/Forms/Juegos/ordenalo.dart';
+import 'package:lectoya/screens/Docentes/Forms/Juegos/ruleteando.dart';
+import 'package:lectoya/screens/Docentes/Forms/Juegos/significado.dart';
 
 class DetalleTemaDocente extends StatefulWidget {
   const DetalleTemaDocente({super.key});
@@ -32,18 +39,391 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 9, 36, 82),
-        title: Text(
-          'Tema'.toUpperCase(),
-          textAlign: TextAlign.start,
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(65.0),
+        child: AppBar(
+          backgroundColor: const Color.fromARGB(255, 9, 36, 82),
+          title: Text(
+            'tema'.toUpperCase(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 28),
+          ),
+          automaticallyImplyLeading: false,
         ),
       ),
       body: temaData.isEmpty
           ? Center(child: CircularProgressIndicator())
           : CardDetalle(temaData: temaData),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: SizedBox(
+        height: 60,
+        width: 60,
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext context) {
+                return StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return AnimatedPadding(
+                      padding: MediaQuery.of(context).viewInsets,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.decelerate,
+                      child: Container(
+                        height: 480,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: const BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(20)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, top: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child: Text(
+                                  'Agregar juegos',
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Divider(),
+                              Container(
+                                height: 400,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation: 7,
+                                        shadowColor: Colors.black87,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const FormInteractivas()),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Preguntas interactivas',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                  Text(
+                                                      'Transforma historias y explora finales inesperados al controlar los destinos de los personajes.')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Card(
+                                        elevation: 7,
+                                        shadowColor: Colors.black87,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const FormHaremos()),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '¿Ahora qué haremos?',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                  Text(
+                                                      'Este juego te desafía a resolver dilemas narrativos guiando personajes hacia soluciones ingeniosas.')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Card(
+                                        elevation: 7,
+                                        shadowColor: Colors.black87,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const FormDado()),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'El dado de las preguntas',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                  Text(
+                                                      'Haz que la lectura sea interactiva: lanza dados, responde preguntas específicas y profundiza tu comprensión de manera única y entretenida.')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Card(
+                                        elevation: 7,
+                                        shadowColor: Colors.black87,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const FormCambialo()),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Cambialo ya!',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                  Text(
+                                                      'Con las emociones propuestas crea el final como si fueras el personaje. ¡Adopta la emoción y cambia el destino!')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Card(
+                                        elevation: 7,
+                                        shadowColor: Colors.black87,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const FormOrdenalo()),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Ordenalo ya!',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                  Text(
+                                                      'Organiza la historia en 5 pequeñas oraciones para que pueda recordar toda la obra. Acompáñalo con 5 imágenes propuestas.')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Card(
+                                        elevation: 7,
+                                        shadowColor: Colors.black87,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const FormRuleteando()),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Ruleteando',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                  Text(
+                                                      'Las preguntas más difíciles se encuentra en la ruleta de LECTO YA!. Es momento de probar tu suerte y que  respondas correctamente la pregunta.')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Card(
+                                        elevation: 7,
+                                        shadowColor: Colors.black87,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const FormSignificado()),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Dale un significado',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                  Text(
+                                                      'Desafía tu interpretación seleccionando tres palabras clave para desbloquear etapas y descubrir significados ocultos, mejorando tu habilidad de forma divertida.')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
+          backgroundColor: Colors.white,
+          shape: const CircleBorder(
+            side: BorderSide(width: 5, color: Color.fromARGB(255, 22, 27, 124)),
+          ),
+          child: const Icon(
+            Icons.add,
+            size: 24.0,
+          ),
+        ),
+      ),
     );
   }
 }
