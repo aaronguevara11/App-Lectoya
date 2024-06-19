@@ -70,9 +70,9 @@ class CardDetalle extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    temaData['nombre'],
+                    temaData['nombre'].toUpperCase(),
                     style: const TextStyle(
-                      fontSize: 25,
+                      fontSize: 27,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
