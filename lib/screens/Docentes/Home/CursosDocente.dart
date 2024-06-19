@@ -1,7 +1,6 @@
 import 'package:lectoya/api/apiDocentes.dart';
 import 'package:flutter/material.dart';
 import 'package:lectoya/screens/Docentes/Curso/indexCurso.dart';
-import 'package:lectoya/screens/Docentes/indexDocente.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CursosDocente extends StatefulWidget {

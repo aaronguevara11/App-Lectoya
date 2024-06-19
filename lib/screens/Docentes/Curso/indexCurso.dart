@@ -56,7 +56,7 @@ class _DetalleCursoDocenteState extends State<DetalleCursoDocente> {
             nombreCurso.toUpperCase(),
             textAlign: TextAlign.center,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 35),
+                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30),
           ),
           automaticallyImplyLeading: false,
         ),

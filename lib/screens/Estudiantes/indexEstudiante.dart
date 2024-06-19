@@ -26,8 +26,8 @@ class _HomeEstudiante extends State<HomeEstudiante> {
         ),
         bottomNavigationBar: ClipRRect(
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20.0), // Set desired top-left radius
-            topRight: Radius.circular(20.0), // Set desired top-right radius
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
           ),
           child: SafeArea(
             child: SizedBox(
