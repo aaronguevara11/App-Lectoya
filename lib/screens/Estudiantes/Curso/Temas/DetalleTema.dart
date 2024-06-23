@@ -58,32 +58,31 @@ class CardDetalle extends StatelessWidget {
     return SingleChildScrollView(
       child: SizedBox(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height / 2,
+        height: MediaQuery.of(context).size.height / 3 + 130,
         child: Card(
           elevation: 7,
           shadowColor: Colors.grey,
           margin: const EdgeInsets.only(top: 25, left: 20, right: 20),
-          child: Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  temaData['nombre'].toUpperCase(),
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    temaData['nombre'].toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 27,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const Divider(color: Color.fromARGB(255, 155, 155, 155)),
-                SizedBox(
-                  height: 60,
-                  child: Text(
+                  const Divider(color: Color.fromARGB(255, 155, 155, 155)),
+                  Text(
                     temaData['lectura'],
-                    style: const TextStyle(fontSize: 23),
+                    style: const TextStyle(fontSize: 20),
                   ),
-                )
-              ],
+                ],
+              ),
             ),
           ),
         ),
