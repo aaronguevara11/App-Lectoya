@@ -93,7 +93,7 @@ class CardCurso extends StatelessWidget {
   Widget build(BuildContext context) {
     final nombreCurso = cursoData['nombreCurso'];
     final nombreDocente = cursoData['nombreDocente'];
-    final idCurso = cursoData['idCurso'];
+    final idCurso = cursoData['idCurso'].toString();
 
     return SizedBox(
       width: double.infinity,

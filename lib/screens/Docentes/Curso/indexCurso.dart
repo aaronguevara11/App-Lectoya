@@ -53,7 +53,7 @@ class _DetalleCursoDocenteState extends State<DetalleCursoDocente> {
         child: AppBar(
           backgroundColor: const Color.fromARGB(255, 9, 36, 82),
           title: Text(
-            nombreCurso.toUpperCase(),
+            nombreCurso,
             textAlign: TextAlign.center,
             style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30),
@@ -123,32 +123,6 @@ class _DetalleCursoDocenteState extends State<DetalleCursoDocente> {
                       'Estudiantes',
                       style: TextStyle(
                           color: currentPage == 1 ? Colors.white : Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                currentPage = 2;
-                pageController.animateToPage(2,
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeOut);
-                setState(() {});
-              },
-              child: SizedBox(
-                height: 75,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.settings,
-                      color: currentPage == 2 ? Colors.white : Colors.grey,
-                    ),
-                    Text(
-                      'Ajustes',
-                      style: TextStyle(
-                          color: currentPage == 2 ? Colors.white : Colors.grey),
                     ),
                   ],
                 ),

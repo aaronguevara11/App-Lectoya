@@ -35,7 +35,7 @@ class _CursosDocente extends State<CursosDocente> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(65.0),
+        preferredSize: Size.fromHeight(70.0),
         child: AppBar(
           backgroundColor: const Color.fromARGB(255, 9, 36, 82),
           title: Text(

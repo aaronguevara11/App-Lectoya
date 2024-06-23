@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lectoya/api/apiDocentes.dart';
+import 'package:lectoya/api/apiEstudiantes.dart';
 import 'package:lectoya/screens/Docentes/Curso/Estudiantes/CursoEstudiantes.dart';
-import 'package:lectoya/screens/Docentes/Curso/Temas/TemaDocente.dart';
+import 'package:lectoya/screens/Estudiantes/Curso/Temas/TemaEstudiante.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetalleCurso extends StatefulWidget {
@@ -13,7 +13,7 @@ class DetalleCurso extends StatefulWidget {
 
 class _Curso extends State<DetalleCurso> {
   List<Map<String, dynamic>> temas = [];
-  final DocentesAPI docentesAPI = DocentesAPI();
+  final EstudiantesAPI estudiantesAPI = EstudiantesAPI();
   int currentPage = 0;
   final pageController = PageController(initialPage: 0);
   String nombreCurso = '';
@@ -33,7 +33,7 @@ class _Curso extends State<DetalleCurso> {
           nombreCurso = nombreCursoPref;
         });
 
-        final response = await docentesAPI.TemasCurso();
+        final response = await estudiantesAPI.TemasCurso();
         if (response.containsKey('temas')) {
           setState(() {
             temas = List<Map<String, dynamic>>.from(response['temas']);
@@ -53,7 +53,7 @@ class _Curso extends State<DetalleCurso> {
         child: AppBar(
           backgroundColor: const Color.fromARGB(255, 9, 36, 82),
           title: Text(
-            nombreCurso.toUpperCase(),
+            nombreCurso,
             textAlign: TextAlign.center,
             style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30),
@@ -65,7 +65,7 @@ class _Curso extends State<DetalleCurso> {
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          TemaDocente(temas: temas),
+          TemaEstudiante(temas: temas),
           const EstudiantesCursoDocente(),
         ],
       ),
@@ -123,32 +123,6 @@ class _Curso extends State<DetalleCurso> {
                       'Estudiantes',
                       style: TextStyle(
                           color: currentPage == 1 ? Colors.white : Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                currentPage = 2;
-                pageController.animateToPage(2,
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeOut);
-                setState(() {});
-              },
-              child: SizedBox(
-                height: 75,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.settings,
-                      color: currentPage == 2 ? Colors.white : Colors.grey,
-                    ),
-                    Text(
-                      'Ajustes',
-                      style: TextStyle(
-                          color: currentPage == 2 ? Colors.white : Colors.grey),
                     ),
                   ],
                 ),

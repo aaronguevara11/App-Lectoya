@@ -144,4 +144,81 @@ class EstudiantesAPI {
       throw Exception(e);
     }
   }
+
+  Future<Map<String, dynamic>> TemasCurso() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final idCurso = prefs.getString('idCurso');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/mostrarTemas/$idCurso',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = response.data;
+        List<dynamic> temasList = data['Tema']['temas'];
+        List<Map<String, dynamic>> temas = temasList.map((tema) {
+          return {
+            'id': tema['id'],
+            'nombre': tema['nombre'],
+            'descripcion': tema['descripcion']
+          };
+        }).toList();
+
+        return {'temas': temas};
+      } else {
+        throw Exception('Error al obtener los temas del curso.');
+      }
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
+
+  Future<Map<String, dynamic>> DetallesTema() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final idTema = prefs.getString('idTema');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/verTema/$idTema',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = response.data;
+        final Map<String, dynamic> temaData = data['Temas'];
+
+        final result = {
+          'id': temaData['id'],
+          'nombre': temaData['nombre'],
+          'lectura': temaData['lectura'],
+          'juegos': temaData['juegos']
+        };
+
+        print(result);
+        return result;
+      } else {
+        throw Exception('Error al obtener los temas del curso.');
+      }
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
 }

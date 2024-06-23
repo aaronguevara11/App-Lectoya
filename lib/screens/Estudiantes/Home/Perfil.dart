@@ -107,7 +107,7 @@ class _Perfil extends State<PerfilEstudiante> {
                               ),
                               child: Center(
                                 child: Text(
-                                  inicial,
+                                  inicial.toUpperCase(),
                                   style: const TextStyle(
                                       color: Colors.black38,
                                       fontSize: 90,

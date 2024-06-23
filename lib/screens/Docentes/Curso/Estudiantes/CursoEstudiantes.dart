@@ -11,6 +11,7 @@ class EstudiantesCursoDocente extends StatefulWidget {
 class _EstudiantesCurso extends State<EstudiantesCursoDocente> {
   DocentesAPI docentesAPI = DocentesAPI();
   List<Map<String, dynamic>> estudiantes = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -23,16 +24,20 @@ class _EstudiantesCurso extends State<EstudiantesCursoDocente> {
       final response = await docentesAPI.EstudiantesCurso();
       setState(() {
         estudiantes = List<Map<String, dynamic>>.from(response['estudiantes']);
+        isLoading = false;
       });
     } catch (e) {
       print(e);
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: estudiantes.isEmpty
+      body: isLoading
           ? const Center(
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -48,23 +53,60 @@ class _EstudiantesCurso extends State<EstudiantesCursoDocente> {
                 )
               ],
             ))
-          : SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.all(20),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: estudiantes.length,
-                  itemBuilder: (context, index) {
-                    final estudiante = estudiantes[index];
-                    return CardAlumno(
-                      nombre:
-                          '${estudiante['nombre']} ${estudiante['apaterno']}',
-                    );
+          : estudiantes.isEmpty
+              ? FutureBuilder(
+                  future: Future.delayed(Duration(seconds: 2)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return const Center(
+                        child: Text(
+                          'No hay estudiantes registrados',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'Cargando...',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }
                   },
+                )
+              : SingleChildScrollView(
+                  child: Container(
+                    margin: EdgeInsets.all(20),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: estudiantes.length,
+                      itemBuilder: (context, index) {
+                        final estudiante = estudiantes[index];
+                        return CardAlumno(
+                          nombre:
+                              '${estudiante['nombre']} ${estudiante['apaterno']}',
+                        );
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ),
     );
   }
 }
