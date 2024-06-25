@@ -167,12 +167,14 @@ class _Perfil extends State<PerfilDocente> {
                                     onTap: () async {
                                       final prefs =
                                           await SharedPreferences.getInstance();
-                                      await prefs.remove('token');
-                                      Navigator.pushReplacement(
+                                      await prefs.remove('jwt');
+                                      Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LoginVentana()),
+                                          builder: (context) =>
+                                              const LoginVentana(),
+                                        ),
+                                        (Route<dynamic> route) => false,
                                       );
                                     },
                                     child: Container(

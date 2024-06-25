@@ -319,4 +319,47 @@ class DocentesAPI {
       throw Exception('Error al obtener los temas del curso.');
     }
   }
+
+  Future<String> AgregarInteractivas(
+    String parrafo,
+    String pregunta,
+    String claveA,
+    String claveB,
+    String claveC,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idTema = prefs.getString('idTema');
+
+    try {
+      final response = await Dio().post(
+        'https://lectoya-back.onrender.com/app/interactivas/agregarHistoria',
+        data: {
+          'parrafo': parrafo,
+          'pregunta': pregunta,
+          'claveA': claveA,
+          'claveB': claveB,
+          'claveC': claveC,
+          'idTema': idTema,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.data == "{message: Historia creada}") {
+        return "Juego agregado";
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      return "Error en la petición";
+    }
+  }
 }
