@@ -12,7 +12,7 @@ class DocentesAPI {
       var result = response.data.toString();
 
       String message = response.data['message'];
-
+      print(response);
       print(message);
 
       if (result == "{message: Datos incorrectos}") {
@@ -320,19 +320,19 @@ class DocentesAPI {
     }
   }
 
-  Future<String> AgregarInteractivas(
-    String parrafo,
-    String pregunta,
-    String claveA,
-    String claveB,
-    String claveC,
+  Future<Object> AgregarInteractivas(
+    parrafo,
+    pregunta,
+    claveA,
+    claveB,
+    claveC,
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('jwt');
     final idTema = prefs.getString('idTema');
 
     try {
-      final response = await Dio().post(
+      final response = await dio.post(
         'https://lectoya-back.onrender.com/app/interactivas/agregarHistoria',
         data: {
           'parrafo': parrafo,
@@ -353,7 +353,42 @@ class DocentesAPI {
 
       if (response.statusCode == 404) {
         return "El juego no existe";
-      } else if (response.data == "{message: Historia creada}") {
+      } else if (response.statusCode == 200) {
+        return "Juego agregado";
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      return "Error en la petición";
+    }
+  }
+
+  Future<Object> AgregarHaremos(
+    pregunta,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idTema = prefs.getString('idTema');
+
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/haremos/agregarTrabajo',
+        data: {
+          'pregunta': pregunta,
+          'idTema': idTema,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.statusCode == 200) {
         return "Juego agregado";
       } else {
         return "Error desconocido";

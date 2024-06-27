@@ -36,6 +36,75 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
     }
   }
 
+  void _showJuegosModal() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AnimatedPadding(
+              padding: MediaQuery.of(context).viewInsets,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.decelerate,
+              child: Container(
+                height: 420,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Juegos agregados:'.toUpperCase(),
+                          style: const TextStyle(
+                              fontSize: 27, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Divider(),
+                      Expanded(
+                          child: ListView.builder(
+                        itemCount: temaData['juegos'].length,
+                        itemBuilder: (context, index) {
+                          final juego = temaData['juegos'][index];
+                          return Card(
+                            key: ValueKey(juego['id']),
+                            margin: const EdgeInsets.only(top: 6, bottom: 6),
+                            elevation: 6,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 6),
+                              child: ListTile(
+                                onTap: () {
+                                  final id = juego['id'].toString();
+                                  print('Juego seleccionado ID: $id');
+                                },
+                                title: Text(
+                                  juego['nombreJuego'],
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ))
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +123,45 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
       ),
       body: temaData.isEmpty
           ? Center(child: CircularProgressIndicator())
-          : CardDetalle(temaData: temaData),
+          : SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.all(25),
+                child: Column(
+                  children: [
+                    CardDetalle(temaData: temaData),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                        elevation: 9,
+                        child: GestureDetector(
+                          onTap: _showJuegosModal,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 65,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.gamepad_rounded),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    'Juegos'.toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: SizedBox(
         height: 60,
@@ -442,7 +549,6 @@ class CardDetalle extends StatelessWidget {
         child: Card(
           elevation: 7,
           shadowColor: Colors.grey,
-          margin: const EdgeInsets.only(top: 25, left: 20, right: 20),
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(18.0),
