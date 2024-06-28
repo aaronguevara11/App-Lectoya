@@ -69,68 +69,6 @@ class _Curso extends State<DetalleCurso> {
           const EstudiantesCursoDocente(),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        height: 75,
-        shape: const CircularNotchedRectangle(),
-        color: Colors.black87,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            GestureDetector(
-              onTap: () {
-                currentPage = 0;
-                pageController.animateToPage(0,
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeOut);
-                setState(() {});
-              },
-              child: SizedBox(
-                height: 75,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.book_outlined,
-                      color: currentPage == 0 ? Colors.white : Colors.grey,
-                    ),
-                    Text(
-                      'Temas',
-                      style: TextStyle(
-                          color: currentPage == 0 ? Colors.white : Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                currentPage = 1;
-                pageController.animateToPage(1,
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeOut);
-                setState(() {});
-              },
-              child: SizedBox(
-                height: 75,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.people_outline,
-                      color: currentPage == 1 ? Colors.white : Colors.grey,
-                    ),
-                    Text(
-                      'Estudiantes',
-                      style: TextStyle(
-                          color: currentPage == 1 ? Colors.white : Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
