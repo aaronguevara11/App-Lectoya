@@ -75,19 +75,29 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
                           return Card(
                             key: ValueKey(juego['id']),
                             margin: const EdgeInsets.only(top: 6, bottom: 6),
-                            elevation: 6,
+                            elevation: 4,
+                            shadowColor:
+                                const Color.fromARGB(119, 33, 149, 243),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 6),
-                              child: ListTile(
+                              padding: EdgeInsets.all(15),
+                              child: GestureDetector(
                                 onTap: () {
                                   final id = juego['id'].toString();
                                   print('Juego seleccionado ID: $id');
                                 },
-                                title: Text(
-                                  juego['nombreJuego'],
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.gamepad_rounded),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      juego['nombreJuego'],
+                                      style: const TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -113,16 +123,16 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
         child: AppBar(
           backgroundColor: const Color.fromARGB(255, 9, 36, 82),
           title: Text(
-            'tema'.toUpperCase(),
+            temaData.isNotEmpty ? temaData['nombre'].toUpperCase() : 'Tema',
             textAlign: TextAlign.center,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 28),
+                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 26),
           ),
           automaticallyImplyLeading: false,
         ),
       ),
       body: temaData.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Container(
                 margin: EdgeInsets.all(25),
@@ -549,26 +559,29 @@ class CardDetalle extends StatelessWidget {
         child: Card(
           elevation: 7,
           shadowColor: Colors.grey,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    temaData['nombre'].toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Lectura',
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(color: Color.fromARGB(255, 155, 155, 155)),
+                Container(
+                  height: MediaQuery.of(context).size.height / 2 - 100,
+                  child: SingleChildScrollView(
+                    child: Text(
+                      temaData['lectura'],
+                      style: const TextStyle(fontSize: 19),
                     ),
                   ),
-                  const Divider(color: Color.fromARGB(255, 155, 155, 155)),
-                  Text(
-                    temaData['lectura'],
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
+                )
+              ],
             ),
           ),
         ),

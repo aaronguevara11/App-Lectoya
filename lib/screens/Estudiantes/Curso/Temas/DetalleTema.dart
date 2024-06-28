@@ -29,6 +29,85 @@ class _DetalleTemaEstudiantes extends State<DetalleTemaEstudiantes> {
     }
   }
 
+  void _showJuegosModal() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AnimatedPadding(
+              padding: MediaQuery.of(context).viewInsets,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.decelerate,
+              child: Container(
+                height: 420,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Juegos agregados:'.toUpperCase(),
+                          style: const TextStyle(
+                              fontSize: 27, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Divider(),
+                      Expanded(
+                          child: ListView.builder(
+                        itemCount: temaData['juegos'].length,
+                        itemBuilder: (context, index) {
+                          final juego = temaData['juegos'][index];
+                          return Card(
+                            key: ValueKey(juego['id']),
+                            margin: const EdgeInsets.only(top: 6, bottom: 6),
+                            elevation: 4,
+                            shadowColor:
+                                const Color.fromARGB(119, 33, 149, 243),
+                            child: Padding(
+                              padding: EdgeInsets.all(15),
+                              child: GestureDetector(
+                                onTap: () {
+                                  final id = juego['id'].toString();
+                                  print('Juego seleccionado ID: $id');
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.gamepad_rounded),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      juego['nombreJuego'],
+                                      style: const TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ))
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +121,46 @@ class _DetalleTemaEstudiantes extends State<DetalleTemaEstudiantes> {
         ),
       ),
       body: temaData.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : CardDetalle(temaData: temaData),
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.all(25),
+                child: Column(
+                  children: [
+                    CardDetalle(temaData: temaData),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                        elevation: 9,
+                        child: GestureDetector(
+                          onTap: _showJuegosModal,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 65,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.gamepad_rounded),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    'Juegos'.toUpperCase(),
+                                    style: const TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }
@@ -62,27 +179,29 @@ class CardDetalle extends StatelessWidget {
         child: Card(
           elevation: 7,
           shadowColor: Colors.grey,
-          margin: const EdgeInsets.only(top: 25, left: 20, right: 20),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    temaData['nombre'].toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Lectura',
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(color: Color.fromARGB(255, 155, 155, 155)),
+                Container(
+                  height: MediaQuery.of(context).size.height / 2 - 100,
+                  child: SingleChildScrollView(
+                    child: Text(
+                      temaData['lectura'],
+                      style: const TextStyle(fontSize: 19),
                     ),
                   ),
-                  const Divider(color: Color.fromARGB(255, 155, 155, 155)),
-                  Text(
-                    temaData['lectura'],
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
+                )
+              ],
             ),
           ),
         ),

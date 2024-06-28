@@ -397,4 +397,199 @@ class DocentesAPI {
       return "Error en la petición";
     }
   }
+
+  Future<Object> AgregarCambialo(enunciado, emocion) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idTema = prefs.getString('idTema');
+
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/cambialo/agregarTrabajo',
+        data: {
+          'enunciado': enunciado,
+          'emocion': emocion,
+          'idTema': idTema,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.statusCode == 200) {
+        return "Juego agregado";
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      return "Error en la petición";
+    }
+  }
+
+  Future<Object> AgregarSignificado(
+    lectura,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idTema = prefs.getString('idTema');
+
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/significado/agregarSignificado',
+        data: {
+          'lectura': lectura,
+          'idTema': idTema,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.statusCode == 200) {
+        return "Juego agregado";
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      return "Error en la petición";
+    }
+  }
+
+  Future<Object> AgregarOrdenalo(
+    parrafo1,
+    parrafo2,
+    parrafo3,
+    parrafo4,
+    parrafo5,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idTema = prefs.getString('idTema');
+
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/ordenalo/agregarOrdenalo',
+        data: {
+          'parrafo1': parrafo1,
+          'parrafo2': parrafo2,
+          'parrafo3': parrafo3,
+          'parrafo4': parrafo4,
+          'parrafo5': parrafo5,
+          'idTema': idTema,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.statusCode == 200) {
+        return "Juego agregado";
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      return "Error en la petición";
+    }
+  }
+
+  Future<Object> AgregarDado(
+    primera_pre,
+    segunda_pre,
+    tercera_pre,
+    cuarta_pre,
+    quinta_pre,
+    sexta_pre,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idTema = prefs.getString('idTema');
+
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/dado/agregarDado',
+        data: {
+          'primera_pre': primera_pre,
+          'segunda_pre': segunda_pre,
+          'tercera_pre': tercera_pre,
+          'cuarta_pre': cuarta_pre,
+          'quinta_pre': quinta_pre,
+          'sexta_pre': sexta_pre,
+          'idTema': idTema,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.statusCode == 200) {
+        return "Juego agregado";
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      return "Error en la petición";
+    }
+  }
+
+  Future<Object> AgregarRuleta(
+      pregunta1, pregunta2, pregunta3, pregunta4, pregunta5) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idTema = prefs.getString('idTema');
+
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/ruleta/agregarRuleta',
+        data: {
+          'pregunta1': pregunta1,
+          'pregunta2': pregunta2,
+          'pregunta3': pregunta3,
+          'pregunta4': pregunta4,
+          'pregunta5': pregunta5,
+          'idTema': idTema,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.statusCode == 200) {
+        return "Juego agregado";
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      return "Error en la petición";
+    }
+  }
 }

@@ -81,7 +81,7 @@ class _Haremos extends State<FormHaremos> {
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Ingrese una pregunta';
+                                  return 'Ingrese una lectura';
                                 }
                                 return null;
                               },

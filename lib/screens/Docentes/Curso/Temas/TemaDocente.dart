@@ -97,7 +97,7 @@ class _Temas extends State<TemaDocente> {
                                     validator: (value) {
                                       if (value == null) {
                                         return 'Ingrese un nombre';
-                                      } else if (value.length <= 5) {
+                                      } else if (value.length >= 25) {
                                         return 'Ingrese un nombre más largo';
                                       }
                                       return null;

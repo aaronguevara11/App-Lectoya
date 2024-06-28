@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lectoya/api/apiDocentes.dart';
+import 'package:lectoya/api/apiEstudiantes.dart';
 import 'package:lectoya/screens/Estudiantes/Curso/Temas/DetalleTema.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +12,7 @@ class TemaEstudiante extends StatefulWidget {
 }
 
 class _Temas extends State<TemaEstudiante> {
-  DocentesAPI docentesAPI = DocentesAPI();
+  EstudiantesAPI estudiantesAPI = EstudiantesAPI();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   TextEditingController nombreController = TextEditingController();
   TextEditingController descripcionController = TextEditingController();
@@ -56,7 +56,7 @@ class CardTema extends StatefulWidget {
 }
 
 class _CardTemaState extends State<CardTema> {
-  DocentesAPI docentesAPI = DocentesAPI();
+  EstudiantesAPI estudiantesAPI = EstudiantesAPI();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _CardTemaState extends State<CardTema> {
           final idTema = widget.id.toString();
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('idTema', idTema);
-          final response = await docentesAPI.DetallesTema();
+          final response = await estudiantesAPI.DetallesTema();
           print(response);
           await Navigator.push(
             context,
