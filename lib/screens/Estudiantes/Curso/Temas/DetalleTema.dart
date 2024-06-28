@@ -82,13 +82,13 @@ class _DetalleTemaEstudiantes extends State<DetalleTemaEstudiantes> {
                                   children: [
                                     Icon(Icons.gamepad_rounded),
                                     const SizedBox(
-                                      width: 8,
+                                      width: 10,
                                     ),
                                     Text(
                                       juego['nombreJuego'],
                                       style: const TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ],
                                 ),
