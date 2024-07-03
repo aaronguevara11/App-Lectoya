@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class FormRuleteando extends StatefulWidget {
-  const FormRuleteando({super.key});
+class Ruleteando extends StatefulWidget {
+  const Ruleteando({super.key});
 
   @override
-  State<FormRuleteando> createState() => _Ruleteando();
+  State<Ruleteando> createState() => _Ruleteando();
 }
 
-class _Ruleteando extends State<FormRuleteando> {
+class _Ruleteando extends State<Ruleteando> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

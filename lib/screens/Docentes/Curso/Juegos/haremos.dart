@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class FormHaremos extends StatefulWidget {
-  const FormHaremos({super.key});
+class HaremosHoy extends StatefulWidget {
+  const HaremosHoy({super.key});
 
   @override
-  State<FormHaremos> createState() => _Haremos();
+  State<HaremosHoy> createState() => _Haremos();
 }
 
-class _Haremos extends State<FormHaremos> {
+class _Haremos extends State<HaremosHoy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

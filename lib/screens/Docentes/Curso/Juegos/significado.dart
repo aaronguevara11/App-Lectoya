@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class FormSignificado extends StatefulWidget {
-  const FormSignificado({super.key});
+class DaleSignificado extends StatefulWidget {
+  const DaleSignificado({super.key});
 
   @override
-  State<FormSignificado> createState() => _Significado();
+  State<DaleSignificado> createState() => _Significado();
 }
 
-class _Significado extends State<FormSignificado> {
+class _Significado extends State<DaleSignificado> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

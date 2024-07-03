@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lectoya/api/apiDocentes.dart';
+import 'package:lectoya/screens/Docentes/Curso/Juegos/cambialo.dart';
+import 'package:lectoya/screens/Docentes/Curso/Juegos/dado.dart';
+import 'package:lectoya/screens/Docentes/Curso/Juegos/haremos.dart';
+import 'package:lectoya/screens/Docentes/Curso/Juegos/interactivas.dart';
+import 'package:lectoya/screens/Docentes/Curso/Juegos/ordenalo.dart';
+import 'package:lectoya/screens/Docentes/Curso/Juegos/ruleteando.dart';
+import 'package:lectoya/screens/Docentes/Curso/Juegos/significado.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/cambialo.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/dado.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/haremos.dart';
@@ -81,9 +88,88 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
                             child: Padding(
                               padding: EdgeInsets.all(15),
                               child: GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   final id = juego['id'].toString();
                                   print('Juego seleccionado ID: $id');
+                                  if (juego['nombreJuego'] ==
+                                      'Historias interactivas') {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              HistoriasInteractivas()),
+                                    );
+                                  } else if (juego['nombreJuego'] ==
+                                      '¿Ahora que haremos?') {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HaremosHoy()),
+                                    );
+                                  } else if (juego['nombreJuego'] ==
+                                      'El dado de las preguntas') {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DadoPreguntas()),
+                                    );
+                                  } else if (juego['nombreJuego'] ==
+                                      'Cambialo YA') {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CambialoYa()),
+                                    );
+                                  } else if (juego['nombreJuego'] ==
+                                      'Ordenalo YA') {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => OrdenaloYa()),
+                                    );
+                                  } else if (juego['nombreJuego'] ==
+                                      'Ruleteando') {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Ruleteando()),
+                                    );
+                                  } else if (juego['nombreJuego'] ==
+                                      'Dale un significado') {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DaleSignificado()),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.error_outline,
+                                              color: Colors.white,
+                                            ),
+                                            Text(
+                                              'Hubo un error, intentalo de nuevo más tarde',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                        backgroundColor:
+                                            Color.fromARGB(255, 87, 14, 14),
+                                      ),
+                                    );
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const DetalleTemaDocente()),
+                                    );
+                                  }
                                 },
                                 child: Row(
                                   children: [

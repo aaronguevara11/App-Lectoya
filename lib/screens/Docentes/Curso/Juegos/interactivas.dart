@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class FormInteractivas extends StatefulWidget {
-  const FormInteractivas({super.key});
+class HistoriasInteractivas extends StatefulWidget {
+  const HistoriasInteractivas({super.key});
 
   @override
-  State<FormInteractivas> createState() => _Interactivas();
+  State<HistoriasInteractivas> createState() => _Interactivas();
 }
 
-class _Interactivas extends State<FormInteractivas> {
+class _Interactivas extends State<HistoriasInteractivas> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   @override
@@ -39,12 +39,7 @@ class _Interactivas extends State<FormInteractivas> {
             child: Form(
               key: formkey,
               child: const Column(
-                children: [
-                  TextField(
-                    minLines: 1,
-                    maxLines: null,
-                  ),
-                ],
+                children: [Text('Hola')],
               ),
             ),
           ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class FormDado extends StatefulWidget {
-  const FormDado({super.key});
+class DadoPreguntas extends StatefulWidget {
+  const DadoPreguntas({super.key});
 
   @override
-  State<FormDado> createState() => _Dado();
+  State<DadoPreguntas> createState() => _Dado();
 }
 
-class _Dado extends State<FormDado> {
+class _Dado extends State<DadoPreguntas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class FormCambialo extends StatefulWidget {
-  const FormCambialo({super.key});
+class CambialoYa extends StatefulWidget {
+  const CambialoYa({super.key});
 
   @override
-  State<FormCambialo> createState() => _Cambialo();
+  State<CambialoYa> createState() => _Cambialo();
 }
 
-class _Cambialo extends State<FormCambialo> {
+class _Cambialo extends State<CambialoYa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
