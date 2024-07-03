@@ -328,7 +328,7 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Preguntas interactivas',
+                                                    'Historias interactivas',
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
