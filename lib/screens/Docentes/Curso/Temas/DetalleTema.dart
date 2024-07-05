@@ -14,6 +14,7 @@ import 'package:lectoya/screens/Docentes/Forms/Juegos/interactivas.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/ordenalo.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/ruleteando.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/significado.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetalleTemaDocente extends StatefulWidget {
   const DetalleTemaDocente({super.key});
@@ -89,8 +90,12 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
                               padding: EdgeInsets.all(15),
                               child: GestureDetector(
                                 onTap: () async {
-                                  final id = juego['id'].toString();
+                                  final id = juego['idJuego'].toString();
                                   print('Juego seleccionado ID: $id');
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+
+                                  prefs.setString('idNivel', id);
                                   if (juego['nombreJuego'] ==
                                       'Historias interactivas') {
                                     await Navigator.push(

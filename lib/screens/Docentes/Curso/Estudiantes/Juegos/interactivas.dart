@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lectoya/api/apiDocentes.dart';
+import 'package:lectoya/api/apiEstudiantes.dart';
+import 'package:lectoya/screens/Docentes/Curso/Temas/DetalleTema.dart';
 
 class HistoriasInteractivas extends StatefulWidget {
   const HistoriasInteractivas({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class HistoriasInteractivas extends StatefulWidget {
 
 class _HistoriasInteractivasState extends State<HistoriasInteractivas> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final DocentesAPI docentesAPI = DocentesAPI();
+  EstudiantesAPI estudiantesAPI = EstudiantesAPI();
   Map<String, dynamic>? juego;
   String? selectedOption;
 
@@ -22,7 +23,7 @@ class _HistoriasInteractivasState extends State<HistoriasInteractivas> {
 
   Future<void> fetchData() async {
     try {
-      final data = await docentesAPI.VerInteractiva();
+      final data = await estudiantesAPI.VerInteractiva();
       setState(() {
         juego = data['juego'];
       });
@@ -35,6 +36,79 @@ class _HistoriasInteractivasState extends State<HistoriasInteractivas> {
     setState(() {
       selectedOption = option;
     });
+  }
+
+  Future<void> sendResponse() async {
+    if (selectedOption != null) {
+      try {
+        final respuesta = selectedOption;
+        final pregunta = juego!['pregunta'];
+        final response =
+            await estudiantesAPI.EnviarInteractiva(pregunta, respuesta);
+        if (response == "Respuesta enviada") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.check,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 5),
+                  Text('Respuesta enviada con éxito'),
+                ],
+              ),
+              backgroundColor: Color.fromARGB(255, 19, 87, 14),
+            ),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const DetalleTemaDocente(),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.error,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 5),
+                  Text('Error al enviar la respuesta'),
+                ],
+              ),
+              backgroundColor: Color.fromARGB(255, 87, 14, 14),
+            ),
+          );
+        }
+      } catch (e) {
+        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Row(
+              children: [
+                Icon(
+                  Icons.error,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 5),
+                Text('Error al enviar la respuesta'),
+              ],
+            ),
+            backgroundColor: Color.fromARGB(255, 87, 14, 14),
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, seleccione una opción'),
+        ),
+      );
+    }
   }
 
   @override
@@ -219,6 +293,24 @@ class _HistoriasInteractivasState extends State<HistoriasInteractivas> {
                         ),
                       ),
                     ),
+                    GestureDetector(
+                      onTap: () => sendResponse(),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.black,
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        child: const Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Icon(
+                            Icons.send_outlined,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ],
               ),

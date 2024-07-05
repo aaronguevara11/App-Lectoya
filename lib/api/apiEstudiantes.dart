@@ -190,7 +190,7 @@ class EstudiantesAPI {
 
     try {
       final response = await dio.get(
-        'https://lectoya-back.onrender.com/app/verTema/$idTema',
+        'https://lectoya-back.onrender.com/app/detalleTema/$idTema',
         options: Options(
           headers: {
             'Authorization': token,
@@ -219,6 +219,68 @@ class EstudiantesAPI {
     } catch (e) {
       print(e);
       throw Exception('Error al obtener los temas del curso.');
+    }
+  }
+
+  Future<Map<String, dynamic>> VerInteractiva() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/interactivas/verNivel/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
+
+  Future<Object> EnviarInteractiva(pregunta, respuesta) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/interactivas/enviarRespuesta',
+        data: {
+          'pregunta': pregunta,
+          'respuesta': respuesta,
+          'id': id,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.statusCode == 200) {
+        if (response.data['message'] == "Respuesta enviada") {
+          return "Respuesta enviada";
+        } else {
+          return "Error al enviar la respuesta";
+        }
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      print("Error en la petición: $e");
+      return "Error en la petición";
     }
   }
 }

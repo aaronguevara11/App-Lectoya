@@ -288,7 +288,7 @@ class DocentesAPI {
 
     try {
       final response = await dio.get(
-        'https://lectoya-back.onrender.com/app/verTema/$idTema',
+        'https://lectoya-back.onrender.com/app/detalleTema/$idTema',
         options: Options(
           headers: {
             'Authorization': token,
@@ -590,6 +590,29 @@ class DocentesAPI {
       }
     } catch (e) {
       return "Error en la petición";
+    }
+  }
+
+  Future<Map<String, dynamic>> VerInteractiva() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/interactivas/verNivel/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
     }
   }
 }
