@@ -138,7 +138,8 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Ruleteando()),
+                                          builder: (context) =>
+                                              RuleteandoDocentes()),
                                     );
                                   } else if (juego['nombreJuego'] ==
                                       'Dale un significado') {
