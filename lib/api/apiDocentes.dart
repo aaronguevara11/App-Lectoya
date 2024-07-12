@@ -638,4 +638,50 @@ class DocentesAPI {
       throw Exception('Error al obtener los temas del curso.');
     }
   }
+
+  Future<Map<String, dynamic>> VerHaremos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/haremos/verNivel/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
+
+  Future<Map<String, dynamic>> VerCambialo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/cambialo/verNivel/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
 }

@@ -345,4 +345,127 @@ class EstudiantesAPI {
       return "Error en la petición";
     }
   }
+
+  Future<Map<String, dynamic>> VerHaremos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/haremos/verNivel/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
+
+  Future<Object> EnviarHaremos(pregunta, respuesta) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/haremos/enviarRespuesta',
+        data: {
+          'pregunta': pregunta,
+          'respuesta': respuesta,
+          'id': id,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.statusCode == 200) {
+        if (response.data['message'] == "Respuesta enviada") {
+          return "Respuesta enviada";
+        } else {
+          return "Error al enviar la respuesta";
+        }
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      print("Error en la petición: $e");
+      return "Error en la petición";
+    }
+  }
+
+  Future<Map<String, dynamic>> VerCambialo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/cambialo/verNivel/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
+
+  Future<Object> EnviarCambialo(respuesta) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.post(
+        'https://lectoya-back.onrender.com/app/cambialo/enviarRespuesta',
+        data: {
+          'respuesta': respuesta,
+          'id': id,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+
+      if (response.statusCode == 404) {
+        return "El juego no existe";
+      } else if (response.statusCode == 200) {
+        if (response.data['message'] == "Respuesta enviada") {
+          return "Respuesta enviada";
+        } else {
+          return "Error al enviar la respuesta";
+        }
+      } else {
+        return "Error desconocido";
+      }
+    } catch (e) {
+      print("Error en la petición: $e");
+      return "Error en la petición";
+    }
+  }
 }
