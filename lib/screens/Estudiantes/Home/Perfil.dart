@@ -97,102 +97,100 @@ class _Perfil extends State<PerfilEstudiante> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.black38, width: 5),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  inicial.toUpperCase(),
-                                  style: const TextStyle(
-                                      color: Colors.black38,
-                                      fontSize: 90,
-                                      fontWeight: FontWeight.bold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: Colors.black, width: 5),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      inicial.toUpperCase(),
+                                      style: const TextStyle(
+                                          color: Colors.black38,
+                                          fontSize: 90,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Text(
-                              '$nombre $apaterno',
-                              style: const TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black45),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ActualizarEstudiante()),
-                                      );
-                                    },
-                                    child: Container(
-                                      width: 145,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Color.fromARGB(255, 19, 15, 124),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(12),
-                                        child: Center(
-                                          child: Text(
-                                            'Cambiar datos',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.white,
-                                            ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '$nombre $apaterno',
+                                      style: const TextStyle(
+                                          fontSize: 23,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54),
+                                    ),
+                                    Text(
+                                      'Estudiante',
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.black54),
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(2),
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          final prefs = await SharedPreferences
+                                              .getInstance();
+                                          await prefs.remove('token');
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const LoginVentana()),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(
+                                                255, 143, 22, 13),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 5),
+                                            child: Center(
+                                                child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons
+                                                      .door_front_door_outlined,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  'Cerrar sesión',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      final prefs =
-                                          await SharedPreferences.getInstance();
-                                      await prefs.remove('token');
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LoginVentana()),
-                                      );
-                                    },
-                                    child: Container(
-                                      width: 145,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Color.fromARGB(255, 136, 0, 0),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(12),
-                                        child: Center(
-                                          child: Text(
-                                            'Cerrar sesion',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                )
+                              ],
                             ),
                             SizedBox(
                               height: 10,
@@ -208,12 +206,41 @@ class _Perfil extends State<PerfilEstudiante> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          'Datos personales:',
-                                          style: TextStyle(
-                                              color: Colors.black45,
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              'Datos personales:',
+                                              style: TextStyle(
+                                                  color: Colors.black45,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const ActualizarEstudiante()),
+                                                );
+                                              },
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.black,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                  child: const Padding(
+                                                    padding: EdgeInsets.all(7),
+                                                    child: Icon(
+                                                      Icons.edit_note_rounded,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                            )
+                                          ],
                                         ),
                                         const SizedBox(
                                           height: 10,

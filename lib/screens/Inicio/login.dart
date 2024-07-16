@@ -34,7 +34,7 @@ class _Login extends State<LoginVentana> {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
             child: Padding(
               padding: const EdgeInsets.only(
-                  top: 22, left: 32, right: 32, bottom: 35),
+                  top: 20, left: 32, right: 32, bottom: 26),
               child: Form(
                 key: formkey,
                 child: Column(
@@ -45,11 +45,8 @@ class _Login extends State<LoginVentana> {
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 50,
+                        fontSize: 45,
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
                     ),
                     TextFormField(
                       controller: correoController,

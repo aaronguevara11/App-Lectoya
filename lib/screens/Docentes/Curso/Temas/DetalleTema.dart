@@ -45,6 +45,8 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
   }
 
   void _showJuegosModal() {
+    BuildContext? dialogContext;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -55,150 +57,371 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
               padding: MediaQuery.of(context).viewInsets,
               duration: const Duration(milliseconds: 300),
               curve: Curves.decelerate,
-              child: Container(
-                height: 420,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Juegos agregados:'.toUpperCase(),
-                          style: const TextStyle(
-                              fontSize: 27, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Divider(),
-                      Expanded(
-                          child: ListView.builder(
-                        itemCount: temaData['juegos'].length,
-                        itemBuilder: (context, index) {
-                          final juego = temaData['juegos'][index];
-                          return Card(
-                            key: ValueKey(juego['id']),
-                            margin: const EdgeInsets.only(top: 6, bottom: 6),
-                            elevation: 4,
-                            shadowColor:
-                                const Color.fromARGB(119, 33, 149, 243),
-                            child: Padding(
-                              padding: EdgeInsets.all(15),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  final id = juego['idJuego'].toString();
-                                  print('Juego seleccionado ID: $id');
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-
-                                  prefs.setString('idNivel', id);
-                                  if (juego['nombreJuego'] ==
-                                      'Historias interactivas') {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              HistoriasInteractivas()),
-                                    );
-                                  } else if (juego['nombreJuego'] ==
-                                      '¿Ahora que haremos?') {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HaremosHoy()),
-                                    );
-                                  } else if (juego['nombreJuego'] ==
-                                      'El dado de las preguntas') {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DadoPreguntas()),
-                                    );
-                                  } else if (juego['nombreJuego'] ==
-                                      'Cambialo YA') {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CambialoYa()),
-                                    );
-                                  } else if (juego['nombreJuego'] ==
-                                      'Ordenalo YA') {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => OrdenaloYa()),
-                                    );
-                                  } else if (juego['nombreJuego'] ==
-                                      'Ruleteando') {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              RuleteandoDocentes()),
-                                    );
-                                  } else if (juego['nombreJuego'] ==
-                                      'Dale un significado') {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DaleSignificado()),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.error_outline,
-                                              color: Colors.white,
+              child: Builder(
+                builder: (BuildContext context) {
+                  dialogContext =
+                      context; // Guarda el contexto del bottom sheet
+                  return Container(
+                    height: 420,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: const BoxDecoration(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              'Juegos agregados:'.toUpperCase(),
+                              style: const TextStyle(
+                                fontSize: 27,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Divider(),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: temaData['juegos'].length,
+                              itemBuilder: (context, index) {
+                                final juego = temaData['juegos'][index];
+                                return Card(
+                                  key: ValueKey(juego['id']),
+                                  margin:
+                                      const EdgeInsets.only(top: 6, bottom: 6),
+                                  elevation: 4,
+                                  shadowColor:
+                                      const Color.fromARGB(119, 33, 149, 243),
+                                  child: Dismissible(
+                                    key: ValueKey<int>(juego['id']),
+                                    background: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: const Color.fromARGB(
+                                            255, 86, 23, 19),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 15),
+                                      alignment: AlignmentDirectional.centerEnd,
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    direction: DismissDirection.endToStart,
+                                    confirmDismiss: (direction) async {
+                                      bool confirm = false;
+                                      if (dialogContext != null) {
+                                        await showDialog(
+                                          context: dialogContext!,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              contentPadding: EdgeInsets.only(
+                                                  left: 18, right: 18, top: 10),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Borrar juego"
+                                                        .toUpperCase(),
+                                                    style: TextStyle(
+                                                      fontSize: 26,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Divider(),
+                                                  const Text(
+                                                    "¿Estás seguro que deseas borrar este juego?",
+                                                    style:
+                                                        TextStyle(fontSize: 18),
+                                                  ),
+                                                  SizedBox(height: 16),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          confirm = false;
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: Container(
+                                                          margin:
+                                                              EdgeInsets.all(0),
+                                                          height: 40,
+                                                          child: Text(
+                                                            'Cancelar',
+                                                            style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 14),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          confirm = true;
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: Container(
+                                                          margin:
+                                                              EdgeInsets.all(0),
+                                                          height: 40,
+                                                          child: Text(
+                                                            'Borrar',
+                                                            style: TextStyle(
+                                                              fontSize: 18,
+                                                              color: const Color
+                                                                  .fromARGB(255,
+                                                                  107, 33, 28),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }
+                                      return confirm;
+                                    },
+                                    onDismissed: (direction) async {
+                                      try {
+                                        final response =
+                                            await docentesAPI.BorrarJuego();
+                                        if (response ==
+                                            "El nivel no ha sido encontrado") {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Row(
+                                                children: [
+                                                  Icon(Icons.error_outline,
+                                                      color: Colors.white),
+                                                  Text(
+                                                    'Hubo un error, inténtalo de nuevo más tarde',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 87, 14, 14),
                                             ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Row(
+                                                children: [
+                                                  Icon(Icons.check,
+                                                      color: Colors.white),
+                                                  Text(
+                                                    'El nivel ha sido borrado con éxito',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 23, 87, 14),
+                                            ),
+                                          );
+                                          setState(() {
+                                            temaData['juegos'].removeAt(index);
+                                          });
+                                        }
+                                      } catch (e) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Row(
+                                              children: [
+                                                Icon(Icons.error_outline,
+                                                    color: Colors.white),
+                                                Text(
+                                                  'Hubo un error, inténtalo de nuevo más tarde',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            backgroundColor:
+                                                Color.fromARGB(255, 87, 14, 14),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.all(15),
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          final id =
+                                              juego['idJuego'].toString();
+                                          print('Juego seleccionado ID: $id');
+                                          SharedPreferences prefs =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          prefs.setString('idNivel', id);
+
+                                          try {
+                                            switch (juego['nombreJuego']) {
+                                              case 'Historias interactivas':
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HistoriasInteractivas()),
+                                                );
+                                                break;
+                                              case '¿Ahora que haremos?':
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HaremosHoy()),
+                                                );
+                                                break;
+                                              case 'El dado de las preguntas':
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DadoPreguntas()),
+                                                );
+                                                break;
+                                              case 'Cambialo YA':
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CambialoYa()),
+                                                );
+                                                break;
+                                              case 'Ordenalo YA':
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          OrdenaloYa()),
+                                                );
+                                                break;
+                                              case 'Ruleteando':
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          RuleteandoDocentes()),
+                                                );
+                                                break;
+                                              case 'Dale un significado':
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DaleSignificado()),
+                                                );
+                                                break;
+                                              default:
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    content: Row(
+                                                      children: [
+                                                        Icon(
+                                                            Icons.error_outline,
+                                                            color:
+                                                                Colors.white),
+                                                        Text(
+                                                          'Hubo un error, inténtalo de nuevo más tarde',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    backgroundColor:
+                                                        Color.fromARGB(
+                                                            255, 87, 14, 14),
+                                                  ),
+                                                );
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const DetalleTemaDocente()),
+                                                );
+                                            }
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Row(
+                                                  children: [
+                                                    Icon(Icons.error_outline,
+                                                        color: Colors.white),
+                                                    Text(
+                                                      'Hubo un error, inténtalo de nuevo más tarde',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ],
+                                                ),
+                                                backgroundColor: Color.fromARGB(
+                                                    255, 87, 14, 14),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.gamepad_rounded),
+                                            const SizedBox(width: 10),
                                             Text(
-                                              'Hubo un error, intentalo de nuevo más tarde',
-                                              style: TextStyle(
-                                                  color: Colors.white),
+                                              juego['nombreJuego'],
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ],
                                         ),
-                                        backgroundColor:
-                                            Color.fromARGB(255, 87, 14, 14),
                                       ),
-                                    );
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const DetalleTemaDocente()),
-                                    );
-                                  }
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.gamepad_rounded),
-                                    const SizedBox(
-                                      width: 10,
                                     ),
-                                    Text(
-                                      juego['nombreJuego'],
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ))
-                    ],
-                  ),
-                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             );
           },

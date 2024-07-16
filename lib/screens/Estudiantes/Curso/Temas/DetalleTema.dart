@@ -70,11 +70,13 @@ class _DetalleTemaEstudiantesState extends State<DetalleTemaEstudiantes> {
                       return GestureDetector(
                         onTap: () async {
                           final id = juego['idJuego'].toString();
+                          final idJuegoOrdenalo = juego['id'].toString();
                           print('Juego seleccionado ID: $id');
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
 
                           prefs.setString('idNivel', id);
+                          prefs.setString('idOrdenalo', idJuegoOrdenalo);
                           if (juego['nombreJuego'] ==
                               'Historias interactivas') {
                             Navigator.pushReplacement(

@@ -684,4 +684,105 @@ class DocentesAPI {
       throw Exception('Error al obtener los temas del curso.');
     }
   }
+
+  Future<Map<String, dynamic>> VerDado() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/dado/verNivel/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
+
+  Future<Map<String, dynamic>> VerOrdenalo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/ordenalo/verNivel/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
+
+  Future<Map<String, dynamic>> VerSignificado() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/significado/verNivel/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
+  }
+
+  Future<Object> BorrarJuego() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final idNivel = prefs.getString('idNivel');
+    try {
+      final response = await dio.delete(
+        'https://lectoya-back.onrender.com/app/juegos/borrarJuegos',
+        data: {
+          'id': idNivel,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      String message = response.data['message'];
+
+      print(message);
+
+      if (response.statusCode == 404) {
+        return "El nivel no ha sido encontrado";
+      } else {
+        return "Nivel borrado exitosamente";
+      }
+    } catch (e) {
+      print('GA');
+    }
+    return "";
+  }
 }

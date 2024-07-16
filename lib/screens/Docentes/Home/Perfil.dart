@@ -73,7 +73,7 @@ class _Perfil extends State<PerfilDocente> {
 
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0),
+          preferredSize: Size.fromHeight(65.0),
           child: AppBar(
             backgroundColor: const Color.fromARGB(255, 9, 36, 82),
             title: Text(
@@ -92,135 +92,157 @@ class _Perfil extends State<PerfilDocente> {
                 ? const CircularProgressIndicator()
                 : SingleChildScrollView(
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
+                      width: double.infinity,
                       child: Padding(
                         padding: const EdgeInsets.all(25),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.black38, width: 5),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  inicial.toUpperCase(),
-                                  style: const TextStyle(
-                                      color: Colors.black38,
-                                      fontSize: 90,
-                                      fontWeight: FontWeight.bold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: Colors.black, width: 5),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      inicial.toUpperCase(),
+                                      style: const TextStyle(
+                                          color: Colors.black38,
+                                          fontSize: 90,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Text(
-                              '$nombre $apaterno',
-                              style: const TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black45),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ActualizarDocente()),
-                                      );
-                                    },
-                                    child: Container(
-                                      width: 145,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Color.fromARGB(255, 19, 15, 124),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(12),
-                                        child: Center(
-                                          child: Text(
-                                            'Cambiar datos',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.white,
-                                            ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '$nombre $apaterno',
+                                      style: const TextStyle(
+                                          fontSize: 23,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54),
+                                    ),
+                                    Text(
+                                      'Docente',
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.black54),
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(2),
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          final prefs = await SharedPreferences
+                                              .getInstance();
+                                          await prefs.remove('token');
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const LoginVentana()),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(
+                                                255, 143, 22, 13),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 5),
+                                            child: Center(
+                                                child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons
+                                                      .door_front_door_outlined,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  'Cerrar sesión',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      final prefs =
-                                          await SharedPreferences.getInstance();
-                                      await prefs.remove('jwt');
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginVentana(),
-                                        ),
-                                        (Route<dynamic> route) => false,
-                                      );
-                                    },
-                                    child: Container(
-                                      width: 145,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Color.fromARGB(255, 136, 0, 0),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(12),
-                                        child: Center(
-                                          child: Text(
-                                            'Cerrar sesion',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                )
+                              ],
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: 10,
                             ),
                             SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 child: Card(
-                                  elevation: 15,
-                                  shadowColor: Color.fromARGB(255, 52, 52, 52),
+                                  elevation: 12,
+                                  shadowColor: Colors.black54,
                                   child: Padding(
                                     padding: const EdgeInsets.all(12),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          'Datos personales:',
-                                          style: TextStyle(
-                                              color: Colors.black45,
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              'Datos personales:',
+                                              style: TextStyle(
+                                                  color: Colors.black45,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const ActualizarDocente()),
+                                                );
+                                              },
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.black,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                  child: const Padding(
+                                                    padding: EdgeInsets.all(7),
+                                                    child: Icon(
+                                                      Icons.edit_note_rounded,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                            )
+                                          ],
                                         ),
                                         const SizedBox(
                                           height: 10,
@@ -232,7 +254,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Dni:',
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 18,
                                               ),
                                             ),
                                             const SizedBox(
@@ -254,7 +276,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   dni,
                                                   style: const TextStyle(
-                                                      fontSize: 16,
+                                                      fontSize: 18,
                                                       color: Colors.black38),
                                                 ),
                                               ),
@@ -271,7 +293,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Nombres:',
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 18,
                                               ),
                                             ),
                                             const SizedBox(
@@ -293,7 +315,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   nombre,
                                                   style: const TextStyle(
-                                                      fontSize: 16,
+                                                      fontSize: 18,
                                                       color: Colors.black38),
                                                 ),
                                               ),
@@ -310,7 +332,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Apellidos:',
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 18,
                                               ),
                                             ),
                                             const SizedBox(
@@ -332,7 +354,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   apaterno + ' ' + amaterno,
                                                   style: const TextStyle(
-                                                      fontSize: 16,
+                                                      fontSize: 18,
                                                       color: Colors.black38),
                                                 ),
                                               ),
@@ -349,7 +371,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Correo:',
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 18,
                                               ),
                                             ),
                                             const SizedBox(
@@ -371,7 +393,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   correo,
                                                   style: const TextStyle(
-                                                      fontSize: 16,
+                                                      fontSize: 18,
                                                       color: Colors.black38),
                                                 ),
                                               ),
@@ -388,7 +410,7 @@ class _Perfil extends State<PerfilDocente> {
                                             const Text(
                                               'Número:',
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 18,
                                               ),
                                             ),
                                             const SizedBox(
@@ -410,7 +432,7 @@ class _Perfil extends State<PerfilDocente> {
                                                 child: Text(
                                                   numero,
                                                   style: const TextStyle(
-                                                      fontSize: 16,
+                                                      fontSize: 18,
                                                       color: Colors.black38),
                                                 ),
                                               ),
