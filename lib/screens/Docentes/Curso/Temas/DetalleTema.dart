@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lectoya/api/apiDocentes.dart';
 import 'package:lectoya/screens/Docentes/Curso/Juegos/cambialo.dart';
 import 'package:lectoya/screens/Docentes/Curso/Juegos/dado.dart';
@@ -7,6 +8,13 @@ import 'package:lectoya/screens/Docentes/Curso/Juegos/interactivas.dart';
 import 'package:lectoya/screens/Docentes/Curso/Juegos/ordenalo.dart';
 import 'package:lectoya/screens/Docentes/Curso/Juegos/ruleteando.dart';
 import 'package:lectoya/screens/Docentes/Curso/Juegos/significado.dart';
+import 'package:lectoya/screens/Docentes/Curso/Respuestas/cambialo.dart';
+import 'package:lectoya/screens/Docentes/Curso/Respuestas/dado.dart';
+import 'package:lectoya/screens/Docentes/Curso/Respuestas/haremos.dart';
+import 'package:lectoya/screens/Docentes/Curso/Respuestas/interactivas.dart';
+import 'package:lectoya/screens/Docentes/Curso/Respuestas/ordenalo.dart';
+import 'package:lectoya/screens/Docentes/Curso/Respuestas/ruleteando.dart';
+import 'package:lectoya/screens/Docentes/Curso/Respuestas/significado.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/cambialo.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/dado.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/haremos.dart';
@@ -14,6 +22,7 @@ import 'package:lectoya/screens/Docentes/Forms/Juegos/interactivas.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/ordenalo.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/ruleteando.dart';
 import 'package:lectoya/screens/Docentes/Forms/Juegos/significado.dart';
+import 'package:lectoya/screens/Docentes/indexDocente.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetalleTemaDocente extends StatefulWidget {
@@ -59,8 +68,7 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
               curve: Curves.decelerate,
               child: Builder(
                 builder: (BuildContext context) {
-                  dialogContext =
-                      context; // Guarda el contexto del bottom sheet
+                  dialogContext = context;
                   return Container(
                     height: 420,
                     width: MediaQuery.of(context).size.width,
@@ -282,11 +290,19 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
                                         onTap: () async {
                                           final id =
                                               juego['idJuego'].toString();
-                                          print('Juego seleccionado ID: $id');
+                                          final idJuegoOrdenalo =
+                                              juego['id'].toString();
+
+                                          print(
+                                              'Juego seleccionado ID: $idJuegoOrdenalo');
+
+                                          print('Juego: $id');
                                           SharedPreferences prefs =
                                               await SharedPreferences
                                                   .getInstance();
                                           prefs.setString('idNivel', id);
+                                          prefs.setString(
+                                              'idOrdenalo', idJuegoOrdenalo);
 
                                           try {
                                             switch (juego['nombreJuego']) {
@@ -397,17 +413,220 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
                                             );
                                           }
                                         },
-                                        child: Row(
+                                        child: Column(
                                           children: [
-                                            Icon(Icons.gamepad_rounded),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              juego['nombreJuego'],
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.gamepad_rounded),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  juego['nombreJuego'],
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    final id =
+                                                        juego['id'].toString();
+                                                    print(
+                                                        'Juego seleccionado ID: $id');
+                                                    SharedPreferences prefs =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    prefs.setString(
+                                                        'idNivel', id);
+
+                                                    try {
+                                                      switch (juego[
+                                                          'nombreJuego']) {
+                                                        case 'Historias interactivas':
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        RespuestasHistoriasInteractivas()),
+                                                          );
+                                                          break;
+                                                        case '¿Ahora que haremos?':
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        RespuestasHaremosHoy()),
+                                                          );
+                                                          break;
+                                                        case 'El dado de las preguntas':
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        RespuestasDadoPreguntas()),
+                                                          );
+                                                          break;
+                                                        case 'Cambialo YA':
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        RespuestasCambialoYa()),
+                                                          );
+                                                          break;
+                                                        case 'Ordenalo YA':
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        RespuestasOrdenaloYa()),
+                                                          );
+                                                          break;
+                                                        case 'Ruleteando':
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        RespuestasRuleteandoDocentes()),
+                                                          );
+                                                          break;
+                                                        case 'Dale un significado':
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        RespuestasDaleSignificado()),
+                                                          );
+                                                          break;
+                                                        default:
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            const SnackBar(
+                                                              content: Row(
+                                                                children: [
+                                                                  Icon(
+                                                                      Icons
+                                                                          .error_outline,
+                                                                      color: Colors
+                                                                          .white),
+                                                                  Text(
+                                                                    'Hubo un error, inténtalo de nuevo más tarde',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              backgroundColor:
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          87,
+                                                                          14,
+                                                                          14),
+                                                            ),
+                                                          );
+                                                          Navigator
+                                                              .pushReplacement(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const DetalleTemaDocente()),
+                                                          );
+                                                      }
+                                                    } catch (e) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Row(
+                                                            children: [
+                                                              Icon(
+                                                                  Icons
+                                                                      .error_outline,
+                                                                  color: Colors
+                                                                      .white),
+                                                              Text(
+                                                                'Hubo un error, inténtalo de nuevo más tarde',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          backgroundColor:
+                                                              Color.fromARGB(
+                                                                  255,
+                                                                  87,
+                                                                  14,
+                                                                  14),
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    width: 160,
+                                                    decoration: BoxDecoration(
+                                                        color: Color.fromARGB(
+                                                            255, 12, 19, 91),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15)),
+                                                    child: const Padding(
+                                                      padding:
+                                                          EdgeInsets.all(10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .remove_red_eye_outlined,
+                                                            color: Colors.white,
+                                                            size: 15,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 6,
+                                                          ),
+                                                          Text(
+                                                            'Ver respuestas',
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                color: Colors
+                                                                    .white),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            )
                                           ],
                                         ),
                                       ),
@@ -441,9 +660,145 @@ class _DetalleTemaDocentes extends State<DetalleTemaDocente> {
             temaData.isNotEmpty ? temaData['nombre'].toUpperCase() : 'Tema',
             textAlign: TextAlign.center,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 26),
+                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 22),
           ),
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                bool confirm = false;
+                await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Center(
+                      child: Container(
+                        height: 250,
+                        child: AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          contentPadding:
+                              EdgeInsets.only(top: 15, left: 18, right: 18),
+                          content: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Borrar tema".toUpperCase(),
+                                style: TextStyle(
+                                    fontSize: 26, fontWeight: FontWeight.bold),
+                              ),
+                              Divider(),
+                              const Text(
+                                "¿Estás seguro que deseas borrar este tema?",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      confirm = false;
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.all(0),
+                                      height: 40,
+                                      child: Text(
+                                        'Cancelar',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 14,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final response =
+                                          await docentesAPI.BorrarTema();
+                                      if (response ==
+                                          "El nivel no ha sido encontrado") {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Row(
+                                              children: [
+                                                Icon(Icons.error_outline,
+                                                    color: Colors.white),
+                                                Text(
+                                                  'Hubo un error, inténtalo de nuevo más tarde',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            backgroundColor:
+                                                Color.fromARGB(255, 87, 14, 14),
+                                          ),
+                                        );
+                                      } else if (response ==
+                                          "Nivel borrado exitosamente") {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Row(
+                                              children: [
+                                                Icon(Icons.check,
+                                                    color: Colors.white),
+                                                Text(
+                                                  'El tema ha sido borrado con éxito',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            backgroundColor:
+                                                Color.fromARGB(255, 23, 87, 14),
+                                          ),
+                                        );
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const HomeDocente()),
+                                        );
+                                      }
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.all(0),
+                                      height: 40,
+                                      child: Text(
+                                        'Borrar',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: const Color.fromARGB(
+                                                255, 107, 33, 28),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         ),
       ),
       body: temaData.isEmpty

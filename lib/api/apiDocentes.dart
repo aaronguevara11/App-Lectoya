@@ -168,6 +168,39 @@ class DocentesAPI {
     return "";
   }
 
+  Future<Object> BorrarTema() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final id = prefs.getString('idTema');
+
+    try {
+      final response = await dio.delete(
+        'https://lectoya-back.onrender.com/app/borrarTemas',
+        data: {
+          'id': id,
+        },
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      String message = response.data['message'];
+
+      print(message);
+
+      if (response.statusCode == 404) {
+        return "El nivel no ha sido encontrado";
+      } else {
+        return "Nivel borrado exitosamente";
+      }
+    } catch (e) {
+      print('GA');
+    }
+    return "";
+  }
+
   Future<Map<String, dynamic>> TemasCurso() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('jwt');
@@ -784,5 +817,28 @@ class DocentesAPI {
       print('GA');
     }
     return "";
+  }
+
+  Future<Map<String, dynamic>> VerRespuestas() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt');
+    final id = prefs.getString('idNivel');
+
+    try {
+      final response = await dio.get(
+        'https://lectoya-back.onrender.com/app/juegos/verRespuesta/$id',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      print(response.data);
+      return (response.data);
+    } catch (e) {
+      print(e);
+      throw Exception('Error al obtener los temas del curso.');
+    }
   }
 }
