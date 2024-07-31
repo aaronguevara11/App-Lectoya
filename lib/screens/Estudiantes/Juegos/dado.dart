@@ -77,6 +77,14 @@ class _Dado extends State<DadoPreguntasEstudiantes> {
     super.dispose();
   }
 
+  bool validateSelection() {
+    return preguntaActual.isNotEmpty;
+  }
+
+  bool validateResponse() {
+    return respuestaController.text.isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,36 +198,55 @@ class _Dado extends State<DadoPreguntasEstudiantes> {
                       const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () async {
-                          final respuesta = respuestaController.text;
-                          final pregunta = preguntaActual;
-                          final response = await estudiantesAPI.EnviarDado(
-                              pregunta, respuesta);
+                          if (validateSelection() && validateResponse()) {
+                            final respuesta = respuestaController.text;
+                            final pregunta = preguntaActual;
+                            final response = await estudiantesAPI.EnviarDado(
+                                pregunta, respuesta);
 
-                          if (response == "Respuesta enviada") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Text('Respuesta enviada con éxito'),
-                                  ],
+                            if (response == "Respuesta enviada") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text('Respuesta enviada con éxito'),
+                                    ],
+                                  ),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 19, 87, 14),
                                 ),
-                                backgroundColor:
-                                    Color.fromARGB(255, 19, 87, 14),
-                              ),
-                            );
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const DetalleTemaEstudiantes(),
-                              ),
-                            );
-                          } else {
+                              );
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DetalleTemaEstudiantes(),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.error,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text('Error al enviar la respuesta'),
+                                    ],
+                                  ),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 87, 14, 14),
+                                ),
+                              );
+                            }
+                          } else if (!validateSelection()) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Row(
@@ -229,7 +256,24 @@ class _Dado extends State<DadoPreguntasEstudiantes> {
                                       color: Colors.white,
                                     ),
                                     SizedBox(width: 5),
-                                    Text('Error al enviar la respuesta'),
+                                    Text('Tienes que tirar el dado'),
+                                  ],
+                                ),
+                                backgroundColor:
+                                    Color.fromARGB(255, 87, 14, 14),
+                              ),
+                            );
+                          } else if (!validateResponse()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.error,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text('Ingrese una respuesta'),
                                   ],
                                 ),
                                 backgroundColor:

@@ -41,16 +41,17 @@ class _Significado extends State<DaleSignificadoEstudiantes> {
 
   void onWordTap(String word) {
     setState(() {
-      switch (selectedCard) {
-        case 1:
-          palabra1 = palabra1 == word ? '' : word;
-          break;
-        case 2:
-          palabra2 = palabra2 == word ? '' : word;
-          break;
-        case 3:
-          palabra3 = palabra3 == word ? '' : word;
-          break;
+      if (palabra1.isEmpty) {
+        palabra1 = word;
+      } else if (palabra2.isEmpty) {
+        palabra2 = word;
+      } else if (palabra3.isEmpty) {
+        palabra3 = word;
+      } else {
+        // If all three words are selected, replace the first one
+        palabra1 = palabra2;
+        palabra2 = palabra3;
+        palabra3 = word;
       }
     });
   }
@@ -59,6 +60,10 @@ class _Significado extends State<DaleSignificadoEstudiantes> {
     setState(() {
       selectedCard = cardNumber;
     });
+  }
+
+  bool validateSelection() {
+    return palabra1.isNotEmpty && palabra2.isNotEmpty && palabra3.isNotEmpty;
   }
 
   @override
@@ -144,59 +149,78 @@ class _Significado extends State<DaleSignificadoEstudiantes> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    final significado1 = significadoController1.text;
-                    final significado2 = significadoController2.text;
-                    final significado3 = significadoController3.text;
-                    if (formKey.currentState!.validate()) {
-                      final response = await estudiantesAPI.EnviarSignificado(
-                        palabra1,
-                        palabra2,
-                        palabra3,
-                        significado1,
-                        significado2,
-                        significado3,
-                      );
+                    if (validateSelection()) {
+                      if (formKey.currentState!.validate()) {
+                        final significado1 = significadoController1.text;
+                        final significado2 = significadoController2.text;
+                        final significado3 = significadoController3.text;
 
-                      if (response == "Respuesta enviada") {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Row(
-                              children: [
-                                Icon(
-                                  Icons.check,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(width: 5),
-                                Text('Respuesta enviada con éxito'),
-                              ],
+                        final response = await estudiantesAPI.EnviarSignificado(
+                          palabra1,
+                          palabra2,
+                          palabra3,
+                          significado1,
+                          significado2,
+                          significado3,
+                        );
+
+                        if (response == "Respuesta enviada") {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Row(
+                                children: [
+                                  Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text('Respuesta enviada con éxito'),
+                                ],
+                              ),
+                              backgroundColor: Color.fromARGB(255, 19, 87, 14),
                             ),
-                            backgroundColor: Color.fromARGB(255, 19, 87, 14),
-                          ),
-                        );
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const DetalleTemaEstudiantes(),
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Row(
-                              children: [
-                                Icon(
-                                  Icons.error,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(width: 5),
-                                Text('Error al enviar la respuesta'),
-                              ],
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const DetalleTemaEstudiantes(),
                             ),
-                            backgroundColor: Color.fromARGB(255, 87, 14, 14),
-                          ),
-                        );
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Row(
+                                children: [
+                                  Icon(
+                                    Icons.error,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text('Error al enviar la respuesta'),
+                                ],
+                              ),
+                              backgroundColor: Color.fromARGB(255, 87, 14, 14),
+                            ),
+                          );
+                        }
                       }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Row(
+                            children: [
+                              Icon(
+                                Icons.error,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 5),
+                              Text('Debe seleccionar tres palabras'),
+                            ],
+                          ),
+                          backgroundColor: Color.fromARGB(255, 87, 14, 14),
+                        ),
+                      );
                     }
                   },
                   child: Container(
