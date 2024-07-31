@@ -231,11 +231,30 @@ class _RuleteandoEstudiantesState extends State<RuleteandoEstudiantes>
                           const SizedBox(width: 10),
                           GestureDetector(
                             onTap: () async {
+                              if (selectedQuestion == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.warning,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text('Debe girar la ruleta'),
+                                      ],
+                                    ),
+                                    backgroundColor:
+                                        Color.fromARGB(255, 184, 89, 33),
+                                  ),
+                                );
+                                return;
+                              }
+
                               final respuesta = respuestaController.text;
-                              final pregunta = selectedQuestion;
                               final response =
                                   await estudiantesAPI.EnviarRuleta(
-                                      pregunta, respuesta);
+                                      selectedQuestion!, respuesta);
 
                               if (response == "Respuesta enviada") {
                                 ScaffoldMessenger.of(context).showSnackBar(

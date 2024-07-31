@@ -20,6 +20,7 @@ class _Login extends State<LoginVentana> {
   TextEditingController passwordController = TextEditingController();
   bool isDocente = false;
   bool isLoading = false;
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -76,19 +77,32 @@ class _Login extends State<LoginVentana> {
                     const SizedBox(height: 5),
                     TextFormField(
                       controller: passwordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      decoration: const InputDecoration(
+                      obscureText: _obscurePassword,
+                      decoration: InputDecoration(
                         labelText: 'Contraseña',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
-                        floatingLabelStyle: TextStyle(
+                        floatingLabelStyle: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
-                        prefixIcon: Icon(Icons.password_outlined),
+                        prefixIcon: const Icon(Icons.password_outlined),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            size: 20,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {

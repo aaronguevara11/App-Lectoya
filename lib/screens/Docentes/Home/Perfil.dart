@@ -120,7 +120,7 @@ class _Perfil extends State<PerfilDocente> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: 7,
+                                  width: 10,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -27,13 +27,20 @@ class _RespuestasRuleteandoDocentesState
       setState(() {
         juego = data['juego'];
         if (juego != null && juego!['res_ruleta'] != null) {
-          respuestas = (juego!['res_ruleta'] as List)
-              .map((respuesta) => {
-                    'nombre': '${respuesta['nombre']} ${respuesta['apaterno']}',
-                    'pregunta': respuesta['pregunta'] as String,
-                    'respuesta': respuesta['respuesta'] as String,
-                  })
-              .toList();
+          respuestas = (juego!['res_ruleta'] as List).map((respuesta) {
+            final nombre = respuesta['nombre'] ?? '';
+            final apaterno = respuesta['apaterno'] ?? '';
+            final pregunta =
+                respuesta['pregunta']?.toString() ?? 'Pregunta no disponible';
+            final respuestaTexto =
+                respuesta['respuesta']?.toString() ?? 'Respuesta no disponible';
+
+            return {
+              'nombre': '$nombre $apaterno',
+              'pregunta': pregunta,
+              'respuesta': respuestaTexto,
+            };
+          }).toList();
         }
       });
     } catch (e) {
